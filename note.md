@@ -1,0 +1,1 @@
+- Un DataFrame è una collezione di Series, ognuna rappresentata da una colonna
