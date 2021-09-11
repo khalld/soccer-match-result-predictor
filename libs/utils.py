@@ -1,3 +1,6 @@
+from numba import jit # import decorator that allow to use gpu
+
+@jit
 def find_penalty(row, sht_csv, sht_csv_len):
     for i in range (0, sht_csv_len):
 
@@ -11,6 +14,7 @@ def find_penalty(row, sht_csv, sht_csv_len):
 
     return 'D'
 
+@jit
 def return_outcome(home_score,away_score):
     if (home_score > away_score):
         return 'H'
@@ -18,3 +22,25 @@ def return_outcome(home_score,away_score):
         return 'A'
     if (home_score == away_score):
         return 'D'
+
+
+@jit
+def check_element(elem, array):
+    if elem in array:
+        return True
+    
+    return False
+
+# @jit
+def add_labels(elem, serie):
+    if elem == serie['mean']:
+        return 'mean'
+
+    if elem == serie['25%']:
+        return 'perc_25%'
+
+    if elem == serie['50%']:
+        return 'perc_50%'
+    
+    if elem == serie['75%']:
+        return 'perc_75%'
