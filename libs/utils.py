@@ -14,7 +14,7 @@ def find_penalty(row, sht_csv, sht_csv_len):
 
     return 'D'
 
-@jit
+@jit(nopython=True)
 def return_outcome(home_score,away_score):
     if (home_score > away_score):
         return 'H'
