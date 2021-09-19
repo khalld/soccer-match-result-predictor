@@ -8,21 +8,21 @@ def find_penalty(row, sht_csv, sht_csv_len):
         if( row['date'] == sht_csv.iloc[i]['date'] and row['home_team'] == sht_csv.iloc[i]['home_team'] and row['away_team'] == sht_csv.iloc[i]['away_team'] ) is True:
 
             if(row['home_team'] == sht_csv.iloc[i]['winner']):
-                return 'HP'
+                return 'D-HP'
 
             if(row['away_team'] == sht_csv.iloc[i]['winner']):
-                return 'AP'
+                return 'D-AP'
 
     return 'D'
 
 @jit(nopython=True)
 def return_outcome(home_score,away_score):
     if (home_score > away_score):
-        return 'H'
+        return 'home'
     if (away_score > home_score):
-        return 'A'
+        return 'away'
     if (home_score == away_score):
-        return 'D'
+        return 'draw'
 
 
 @jit
