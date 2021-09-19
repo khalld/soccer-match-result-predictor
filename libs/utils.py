@@ -18,11 +18,11 @@ def find_penalty(row, sht_csv, sht_csv_len):
 @jit(nopython=True)
 def return_outcome(home_score,away_score):
     if (home_score > away_score):
-        return 'home'
+        return 'Home'
     if (away_score > home_score):
-        return 'away'
+        return 'Away'
     if (home_score == away_score):
-        return 'draw'
+        return 'Draw'
 
 
 @jit
