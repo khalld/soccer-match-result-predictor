@@ -1,5 +1,7 @@
 from numba import jit # import decorator that allow to use gpu
 from timeit import default_timer as timer   
+import pandas as pd
+import numpy as np
 
 @jit
 def find_penalty(row, sht_csv, sht_csv_len):
@@ -72,5 +74,27 @@ def fix_continent_matches(all_years, df):
         df = df.append({'year': i, 'matches': 0}, ignore_index=True)
 
     df = df.sort_values(by='year').reset_index().drop(columns=['index'])
+
+    return df
+
+
+def extract_goals_per_year(years, dst):
+    df = pd.DataFrame(data={
+                        'year': years,
+                        'n_matches': np.zeros(len(years), dtype=int),
+                        # home goals
+                        'hg': np.zeros(len(years), dtype=float),
+                        # away goals
+                        'ag': np.zeros(len(years), dtype=float),
+                        # total goals
+                        'tot': np.zeros(len(years), dtype=float)
+                        })
+
+
+    for i in years:
+        df.at[ df['year'] == i, 'n_matches'] = dst[dst['year'] == i].home_score.__len__()
+        df.at[ df['year'] == i, 'hg'] = dst[dst['year'] == i].home_score.sum()
+        df.at[ df['year'] == i, 'ag'] = dst[dst['year'] == i].away_score.sum()
+        df.at[ df['year'] == i, 'tot'] = dst[dst['year'] == i].home_score.sum() + dst[dst['year'] == i].away_score.sum()
 
     return df
