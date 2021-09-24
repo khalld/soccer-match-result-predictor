@@ -59,3 +59,18 @@ def find_range(year):
 
         if year in range_year:
             return str(i)
+
+# per fare il grafo devo utilizzare degli array con le stesse dimensioni
+# anche per quegli anni in cui i contiennti non hanno giocato a calcio 
+# ----- FIXA COME LO DICI -------
+def fix_continent_matches(all_years, df):
+    not_played_years = set(all_years) - (set(all_years).intersection(df.year.values))
+
+    # df = pd.concat([pd.DataFrame([i, 0], columns=['year', 'matches']) for i in not_played_years], ignore_index=True)
+
+    for i in not_played_years:
+        df = df.append({'year': i, 'matches': 0}, ignore_index=True)
+
+    df = df.sort_values(by='year').reset_index().drop(columns=['index'])
+
+    return df
