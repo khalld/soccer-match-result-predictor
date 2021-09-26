@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 @jit
-def find_penalty(row, sht_csv, sht_csv_len):
+def find_penalty(row, sht_csv: pd.DataFrame, sht_csv_len: int):
     for i in range (0, sht_csv_len):
 
         if( row['date'] == sht_csv.iloc[i]['date'] and row['home_team'] == sht_csv.iloc[i]['home_team'] and row['away_team'] == sht_csv.iloc[i]['away_team'] ) is True:
@@ -89,7 +89,6 @@ def extract_goals_per_year(years, dst):
                         # total goals
                         'tot': np.zeros(len(years), dtype=float)
                         })
-
 
     for i in years:
         df.at[ df['year'] == i, 'n_matches'] = dst[dst['year'] == i].home_score.__len__()
