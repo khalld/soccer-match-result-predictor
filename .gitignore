@@ -1,5 +1,6 @@
 # custom
 
+*.idea
 *.csv
 *.png
 *.jpg
