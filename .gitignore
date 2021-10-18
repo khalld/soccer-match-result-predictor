@@ -1,7 +1,9 @@
 # custom
 
+lab/**/**.csv
+
 *.idea
-*.csv
+# *.csv
 *.png
 *.jpg
 *.jpeg
