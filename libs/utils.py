@@ -1,38 +1,41 @@
-from numba import jit # import decorator that allow to use gpu
-from timeit import default_timer as timer   
+# from numba import jit # import decorator that allow to use gpu
+from timeit import default_timer as timer
 import pandas as pd
 import numpy as np
 
-@jit
+
+# @jit
 def find_penalty(row, sht_csv: pd.DataFrame, sht_csv_len: int):
-    for i in range (0, sht_csv_len):
+    for i in range(0, sht_csv_len):
 
-        if( row['date'] == sht_csv.iloc[i]['date'] and row['home_team'] == sht_csv.iloc[i]['home_team'] and row['away_team'] == sht_csv.iloc[i]['away_team'] ) is True:
+        if (row['date'] == sht_csv.iloc[i]['date'] and row['home_team'] == sht_csv.iloc[i]['home_team'] and row[
+            'away_team'] == sht_csv.iloc[i]['away_team']) is True:
 
-            if(row['home_team'] == sht_csv.iloc[i]['winner']):
+            if (row['home_team'] == sht_csv.iloc[i]['winner']):
                 return 'D-HP'
 
-            if(row['away_team'] == sht_csv.iloc[i]['winner']):
+            if (row['away_team'] == sht_csv.iloc[i]['winner']):
                 return 'D-AP'
 
     return 'D'
 
-@jit(nopython=True)
-def return_outcome(home_score,away_score):
-    if (home_score > away_score):
+
+def return_outcome(home_score, away_score):
+    if home_score > away_score:
         return 'Home'
-    if (away_score > home_score):
+    if away_score > home_score:
         return 'Away'
-    if (home_score == away_score):
+    if home_score == away_score:
         return 'Draw'
 
 
-@jit
+# @jit
 def check_element(elem, array):
     if elem in array:
         return True
-    
+
     return False
+
 
 # @jit
 def add_labels(elem, serie):
@@ -44,13 +47,15 @@ def add_labels(elem, serie):
 
     if elem == serie['50%']:
         return 'perc_50%'
-    
+
     if elem == serie['75%']:
         return 'perc_75%'
 
+
 # @jit(nopython=True)
 def find_range(year):
-    arr = ['1870-1879', '1880-1889', '1890-1899', '1900-1909', '1910-1919', '1920-1929', '1930-1939', '1940-1949', '1950-1959', '1960-1969', '1970-1979', '1980-1989', '1990-1999', '2000-2009', '2010-2020','2021-2029']
+    arr = ['1870-1879', '1880-1889', '1890-1899', '1900-1909', '1910-1919', '1920-1929', '1930-1939', '1940-1949',
+           '1950-1959', '1960-1969', '1970-1979', '1980-1989', '1990-1999', '2000-2009', '2010-2020', '2021-2029']
 
     for i in arr:
         # print(i)
@@ -61,6 +66,7 @@ def find_range(year):
 
         if year in range_year:
             return str(i)
+
 
 # per fare il grafo devo utilizzare degli array con le stesse dimensioni
 # anche per quegli anni in cui i contiennti non hanno giocato a calcio 
@@ -80,20 +86,20 @@ def fix_continent_matches(all_years, df):
 
 def extract_goals_per_year(years, dst):
     df = pd.DataFrame(data={
-                        'year': years,
-                        'n_matches': np.zeros(len(years), dtype=int),
-                        # home goals
-                        'hg': np.zeros(len(years), dtype=float),
-                        # away goals
-                        'ag': np.zeros(len(years), dtype=float),
-                        # total goals
-                        'tot': np.zeros(len(years), dtype=float)
-                        })
+        'year': years,
+        'n_matches': np.zeros(len(years), dtype=int),
+        # home goals
+        'hg': np.zeros(len(years), dtype=float),
+        # away goals
+        'ag': np.zeros(len(years), dtype=float),
+        # total goals
+        'tot': np.zeros(len(years), dtype=float)
+    })
 
     for i in years:
-        df.at[ df['year'] == i, 'n_matches'] = dst[dst['year'] == i].home_score.__len__()
-        df.at[ df['year'] == i, 'hg'] = dst[dst['year'] == i].home_score.sum()
-        df.at[ df['year'] == i, 'ag'] = dst[dst['year'] == i].away_score.sum()
-        df.at[ df['year'] == i, 'tot'] = dst[dst['year'] == i].home_score.sum() + dst[dst['year'] == i].away_score.sum()
+        df.at[df['year'] == i, 'n_matches'] = dst[dst['year'] == i].home_score.__len__()
+        df.at[df['year'] == i, 'hg'] = dst[dst['year'] == i].home_score.sum()
+        df.at[df['year'] == i, 'ag'] = dst[dst['year'] == i].away_score.sum()
+        df.at[df['year'] == i, 'tot'] = dst[dst['year'] == i].home_score.sum() + dst[dst['year'] == i].away_score.sum()
 
     return df
