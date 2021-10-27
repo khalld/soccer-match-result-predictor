@@ -2,9 +2,8 @@
 from timeit import default_timer as timer
 import pandas as pd
 import numpy as np
+from matplotlib import pyplot as plt
 
-
-# @jit
 def find_penalty(row, sht_csv: pd.DataFrame, sht_csv_len: int):
     for i in range(0, sht_csv_len):
 
@@ -51,8 +50,6 @@ def add_labels(elem, serie):
     if elem == serie['75%']:
         return 'perc_75%'
 
-
-# @jit(nopython=True)
 def find_range(year):
     arr = ['1870-1879', '1880-1889', '1890-1899', '1900-1909', '1910-1919', '1920-1929', '1930-1939', '1940-1949',
            '1950-1959', '1960-1969', '1970-1979', '1980-1989', '1990-1999', '2000-2009', '2010-2020', '2021-2029']
@@ -103,3 +100,20 @@ def extract_goals_per_year(years, dst):
         df.at[df['year'] == i, 'tot'] = dst[dst['year'] == i].home_score.sum() + dst[dst['year'] == i].away_score.sum()
 
     return df
+
+
+def cumsum_graph(df, team_name):
+    df = df.query("away_team == @team_name or home_team == @team_name")
+
+    wins = df.query("home_team == @team_name and outcome == 'Home' or away_team == @team_name and outcome == 'Away' ").value_counts("year").sort_index(ascending=True).cumsum()
+    draws = df.query("outcome == 'Draw'").value_counts("year").sort_index(ascending=True).cumsum()
+    losses = df.query("home_team == @team_name and outcome == 'Away' or away_team == @team_name and outcome == 'Home' ").value_counts("year").sort_index(ascending=True).cumsum()
+
+    plt.figure()
+    plt.plot(wins)
+    plt.plot(draws)
+    plt.plot(losses)
+    plt.legend(['Wins', 'Draws', 'Losses'])
+    plt.xlabel("Years")
+    plt.title(team_name)
+    plt.show()
