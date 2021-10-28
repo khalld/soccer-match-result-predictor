@@ -23,3 +23,7 @@ Create virtual environment
 Activate venv
 
 `source venv/bin/activate`
+
+Install requirements
+
+`pip install requirements.txt`
