@@ -10,9 +10,9 @@ def format_dataframe(df):
     df = df.astype({"home_score": float, "away_score": float})
 
     df['outcome'] = None
-    df['day_of_week'] = None
-    df['day'] = None
-    df['month'] = None
+    # df['day_of_week'] = None
+    # df['day'] = None
+    # df['month'] = None
     df['year'] = None
 
     counter = 0
@@ -97,9 +97,9 @@ def format_dataframe(df):
 
         # Estraggo i campi della colonna 'date'
         row_date = datetime.date.fromisoformat(df.iloc[i]['date'])
-        df.at[i, 'day'] = row_date.strftime('%d')
-        df.at[i, 'day_of_week'] = row_date.strftime('%A')
-        df.at[i, 'month'] = row_date.strftime('%B')
+        # df.at[i, 'day'] = row_date.strftime('%d')
+        # df.at[i, 'day_of_week'] = row_date.strftime('%A')
+        # df.at[i, 'month'] = row_date.strftime('%B')
         df.at[i, 'year'] = int(row_date.strftime('%Y'))
 
         # Calcolo il risultato della partita
@@ -234,6 +234,22 @@ def get_continent_from_fifa(df, df_fifa):
 
     return df
 
+def check_records_validity(df, df_fifa):
+
+    df_valid = df.copy()
+    valid_country = df_fifa.country_full.drop_duplicates().sort_values().reset_index(drop=True)
+    # valid_country.to_csv("valid_country_output.csv")
+    valid_country = valid_country.values
+    print("Valid country: %s"% (len(valid_country)))
+
+    # assumo che la riga tutte le righe siano valide per diminuire il numero di iterazioni
+    df_valid['is_valid'] = True
+    
+    for index, row in df_valid.iterrows():
+        if (row.home_team not in valid_country and row.away_team not in valid_country):
+            df_valid.at[index, 'is_valid'] = False
+
+    return df_valid
 
 def return_outcome(home_score, away_score):
     if home_score > away_score:
