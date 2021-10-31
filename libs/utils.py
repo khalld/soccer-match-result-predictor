@@ -310,3 +310,16 @@ def convert_onehot(home_team, away_team, tournament='Friendly', city='Rome', cou
     predicted_neutral = neutral
 
     return [[predicted_home_team, predicted_away_team, predicted_tournament, predicted_city, predicted_country, predicted_neutral, predicted_continent]]
+
+def convert_onehot_simplified(home_team, away_team, neutral=True):
+    df_teams = pd.read_csv(path.join("libs/csv" ,"coded_teams.csv"))
+
+    predicted_home_team = df_teams.query("name == @home_team").label.values[0]
+    predicted_away_team = df_teams.query("name == @away_team").label.values[0]
+    if(neutral == True):
+        predicted_neutral = 1
+    else:
+        predicted_neutral = 0
+
+    return [[predicted_home_team, predicted_away_team, predicted_neutral]]
+
