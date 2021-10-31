@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 import datetime
+from os import path
 
 def format_dataframe(df):
 
@@ -289,3 +290,23 @@ def cumsum_graph(df, team_name):
     plt.xlabel("Years")
     plt.title(team_name)
     plt.show()
+
+def convert_onehot(home_team, away_team, tournament='Friendly', city='Rome', country='Italy', continent='Europe', neutral=0): # = 1 True = 0 False
+    # load dataframes ...
+
+    
+    df_teams = pd.read_csv(path.join("libs/csv" ,"coded_teams.csv"))
+    df_tournament = pd.read_csv(path.join("libs/csv" ,"coded_tournament.csv"))
+    df_city = pd.read_csv(path.join("libs/csv" ,"coded_city.csv"))
+    df_country = pd.read_csv(path.join("libs/csv" ,"coded_country.csv"))
+    df_continent = pd.read_csv(path.join("libs/csv" ,"coded_continent.csv"))
+
+    predicted_home_team = df_teams.query("name == @home_team").label.values[0]
+    predicted_away_team = df_teams.query("name == @away_team").label.values[0]
+    predicted_tournament = df_tournament.query("name == @tournament").label.values[0]
+    predicted_city = df_city.query("name == @city").label.values[0]
+    predicted_country = df_country.query("name == @country").label.values[0]
+    predicted_continent = df_continent.query("name == @continent").label.values[0]
+    predicted_neutral = neutral
+
+    return [[predicted_home_team, predicted_away_team, predicted_tournament, predicted_city, predicted_country, predicted_neutral, predicted_continent]]
