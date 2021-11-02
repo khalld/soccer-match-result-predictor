@@ -19,31 +19,37 @@ PATH_ORIGINAL_DST = 'dataset/original'
 PATH_DST = 'dataset'
 
 if __name__ == "__main__":
-    df = pd.read_csv(path.join(PATH_DST, 'dataset_v2_continent.csv')).drop(columns=['Unnamed: 0'])
-    # print(df.columns)
+    df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
 
-    valid_country = pd.read_csv(path.join(PATH_DST, 'dataset_v1_valid_country.csv')).drop(columns=['Unnamed: 0']).team.values
+    # mi calcolo le 
 
-    df_country = df.country.drop_duplicates().values
+    teams = pd.read_csv(path.join(PATH_DST, 'dataset_v1_valid_country.csv')).drop(columns=['Unnamed: 0'])
 
-    # print(df_country)
+    teams['games'] = 0
+    teams['home_games'] = 0
+    teams['away_games'] = 0
+    teams['neutral_games'] = 0
 
-    not_valid_country = []
+    teams['wins'] = 0
+    teams['home_wins'] = 0
+    teams['away_wins'] = 0
+    teams['neutral_wins'] = 0
+    
+    teams['home_defeats'] = 0
+    teams['away_defeats'] = 0
+    teams['neutral_defeats'] = 0
 
-    for i in df_country:
-        if i not in valid_country:
-            not_valid_country.append(i)
-        
-    # print(not_valid_country)
+    teams['home_draws'] = 0
+    teams['away_draws'] = 0
+    teams['neutral_draws'] = 0
 
-    # trovati altri record non validi. Li elimino
+    teams['home_goals_scored'] = 0
+    teams['away_goals_scored'] = 0
+    teams['neutral_draws_scored'] = 0
 
-    print("Lunghezza del dataframe prima del controllo: %s" % (len(df)) )
+    teams['home_goals_conceded'] = 0
+    teams['away_goals_conceded'] = 0
+    teams['neutral_goals_conceded'] = 0
 
-    for i, row in df.iterrows():
-        if(row.country in not_valid_country):
-            df.drop(i, inplace=True)
 
-    print("Lunghezza del dataframe prima del controllo: %s" % (len(df)) )
-
-    df = df.reset_index(drop=True).to_csv(path.join(PATH_DST, 'dataset_v3.csv'))
+    teams.to_csv(path.join(PATH_DST, 'dataset_v4.csv'))
