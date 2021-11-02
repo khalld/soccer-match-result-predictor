@@ -19,6 +19,6 @@ PATH_ORIGINAL_DST = 'dataset/original'
 PATH_DST = 'dataset'
 
 if __name__ == "__main__":
-    # creo un dataframe con le statistiche di ogni squadra per vedere se ci sono delle correlazioni sul giocare in casa o no nello specifico
-    # e nei goal subiti/segnati
-    df = pd.read_csv(path.join(PATH_DST, 'teams_statistics.csv'))
+    df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv'))
+
+    # prepara il modello a partire da qui
