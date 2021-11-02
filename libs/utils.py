@@ -291,6 +291,49 @@ def cumsum_graph(df, team_name):
     plt.title(team_name)
     plt.show()
 
+def cumsum_graph_splitted(df, team_name):
+    selected_team_matches = df.query("away_team == @team_name or home_team == @team_name")
+
+    home_matches = selected_team_matches.query("neutral == False and country == @team_name")
+    wins_home = home_matches.query("home_team == @team_name and outcome == 'Home' or away_team == @team_name and outcome == 'Away' ").value_counts("year").sort_index(ascending=True).cumsum()
+    draws_home = home_matches.query("outcome == 'Draw'").value_counts("year").sort_index(ascending=True).cumsum()
+    losses_home = home_matches.query("home_team == @team_name and outcome == 'Away' or away_team == @team_name and outcome == 'Home' ").value_counts("year").sort_index(ascending=True).cumsum()
+    
+    away_matches = selected_team_matches.query("neutral == False and country != @team_name")
+    wins_away = away_matches.query("home_team == @team_name and outcome == 'Home' or away_team == @team_name and outcome == 'Away' ").value_counts("year").sort_index(ascending=True).cumsum()
+    draws_away = away_matches.query("outcome == 'Draw'").value_counts("year").sort_index(ascending=True).cumsum()
+    losses_away = away_matches.query("home_team == @team_name and outcome == 'Away' or away_team == @team_name and outcome == 'Home' ").value_counts("year").sort_index(ascending=True).cumsum()
+
+    neutral_matches = selected_team_matches.query("neutral == True")
+    wins_neutral = neutral_matches.query("home_team == @team_name and outcome == 'Home' or away_team == @team_name and outcome == 'Away' ").value_counts("year").sort_index(ascending=True).cumsum()
+    draws_neutral = neutral_matches.query("outcome == 'Draw'").value_counts("year").sort_index(ascending=True).cumsum()
+    losses_neutral = neutral_matches.query("home_team == @team_name and outcome == 'Away' or away_team == @team_name and outcome == 'Home' ").value_counts("year").sort_index(ascending=True).cumsum()
+
+    fig, axs = plt.subplots(1, 3)
+    
+    fig.suptitle("%s statistics" %team_name, fontsize="x-large")
+    axs[0].set_title('Wins')
+    axs[0].plot(wins_home, label='Home')
+    axs[0].plot(wins_neutral, label='Neutral')
+    axs[0].plot(wins_away, label="Away")
+    
+    axs[1].set_title('Draws')
+    axs[1].plot(draws_home, label='Home')
+    axs[1].plot(draws_neutral, label='Neutral')
+    axs[1].plot(draws_away, label="Away")
+
+    axs[2].set_title('Losses')
+    axs[2].plot(losses_home, label='Home')
+    axs[2].plot(losses_neutral, label='Neutral')
+    axs[2].plot(losses_away, label="Away")
+
+    for i in range(0,3):
+        axs[i].set_xlabel("Years")
+        axs[i].legend(loc='upper left')
+
+    plt.show()
+
+
 def convert_onehot(home_team, away_team, tournament='Friendly', city='Rome', country='Italy', continent='Europe', neutral=0): # = 1 True = 0 False
     # load dataframes ...
 
