@@ -51,7 +51,11 @@ if __name__ == "__main__":
 
     print("Applied z-score on home and away score")
 
-    df.drop(columns=['year'], inplace=True).to_csv(path.join(PATH_DST, 'dataset_v4_TEST_NOPUSH.csv'))
+    df.drop(columns=['year']).to_csv(path.join(PATH_DST, 'dataset_v4_TEMP.csv'))
+
+    print("***"*5)
+    print("ENDED COMPUTATION ON PART 1")
+    print("***"*5)
 
     # PARTE 2 ---- CORRELAZIONE TRA VARIABILI
 
