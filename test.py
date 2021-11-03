@@ -13,12 +13,27 @@ from scipy.stats import zscore
 from scipy.stats import poisson
 
 plt.style.use('ggplot')
-plt.rcParams.update({'figure.figsize':(15,15), 'figure.dpi':100})
+plt.rcParams.update({'figure.figsize':(10,1), 'figure.dpi':100})
 
 PATH_ORIGINAL_DST = 'dataset/original'
 PATH_DST = 'dataset'
 
 if __name__ == "__main__":
+
+    # Parte 0 --- Aggiungo un peso al dataset
+
+    # df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
+    # df['weight'] = 0
+    # df.loc[:,'weight'] = df['tournament'].apply(add_weight)
+    # df.loc[:,'weight'] = 1 / ( ( df['year'].max() + 1 - df['year'] ) * df['weight'] )
+    # print("Added weight for each match. Some null value?")
+    # print(df.isna().any(axis=None))
+    # df.to_csv(path.join(PATH_DST, 'dataset_v3weight.csv'))
+
+    # Parte 2 --- Distribuzione di goal fatti/subiti di tute le quadre se segnano
+
+    df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
+
 
     # PARTE 1 ---- PREPARAZIONE DATASET
 
@@ -41,11 +56,6 @@ if __name__ == "__main__":
 
     # print("CSV created correctly!")
 
-    # df.loc[:,'weight'] = df['tournament'].apply(add_weight)
-    # df.loc[:,'weight'] = 1 / ((2022 - df['year'].astype('int64'))*df['weight'])
-
-    # print("Added weight for each match")
-
     # # prepara il modello a partire da qui
     # df[['home_score','away_score']].apply(zscore)
 
@@ -59,24 +69,24 @@ if __name__ == "__main__":
 
     # PARTE 2 ---- CORRELAZIONE TRA VARIABILI
 
-    ### to do ....
+    # corr = df.corr(method='spearman').unstack().sort_values(ascending=False).drop_duplicates()
+    # strong_corr = corr[(corr >= .7) & (corr <= 1)]
+    # moderate_corr = corr[(corr >= .3) & (corr <= .7)]
+    # weak_corr = corr[(corr >= .0) & (corr <= .3)]
 
-    df = pd.read_csv(path.join(PATH_DST, 'dataset_v4_TEST_NOPUSH.csv'))
+    # print("Strong correlation: ")
+    # print(strong_corr)  
+    # print("*=*"*5)
+    # print("Moderate correlation: ")
+    # print(moderate_corr)
+    # print("*=*"*5)
+    # print("Weak correlation: ")
+    # print(weak_corr)
 
-    corr = df.corr(method='spearman').unstack().sort_values(ascending=False).drop_duplicates()
+    print(df.columns)
 
-    strong_corr = corr[(corr >= .7) & (corr <= 1)]
-    moderate_corr = corr[(corr >= .3) & (corr <= .7)]
-    weak_corr = corr[(corr >= .0) & (corr <= .3)]
+    # sns.regplot('al','window_glass',df)
 
-    print("Strong correlation: ")
-    print(strong_corr)
-    print("*=*"*5)
-    print("Moderate correlation: ")
-    print(moderate_corr)
-    print("*=*"*5)
-    print("Weak correlation: ")
-    print(weak_corr)
 
-    sns.heatmap(df.corr(),annot=True)
+    # sns.heatmap(df.corr(),annot=True)
     # plt.show()

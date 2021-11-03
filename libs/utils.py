@@ -334,13 +334,8 @@ def cumsum_graph_splitted(df, team_name):
 
     plt.show()
 
-
 def add_weight(value):
-    df_tournaments = pd.read_csv(path.join("libs/csv" ,"coded_tournament.csv"))
-
-    value = df_tournaments.query("label == @value").name.values[0]
-
-    if 'FIFA' in value or 'UEFA' in value or 'CONCACAF' in value or 'AFC' in value:
+    if 'FIFA' in value or 'UEFA' in value or 'CONCACAF' in value or 'AFC' in value or 'Cup' in value:
         return 1
     else :
         return 100
