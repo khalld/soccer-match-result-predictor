@@ -22,59 +22,61 @@ if __name__ == "__main__":
 
     # PARTE 1 ---- PREPARAZIONE DATASET
 
-    df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
-    print("Preparing DataFrame")
+    # df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
+    # print("Preparing DataFrame")
 
-    df['neutral'] = df['neutral'].astype(float)
-    df['outcome'] = df['outcome'].replace({"Home": 1.0, "Draw": 0, "Away": 2})
+    # df['neutral'] = df['neutral'].astype(float)
+    # df['outcome'] = df['outcome'].replace({"Home": 1.0, "Draw": 0, "Away": 2})
 
-    # elimino gli spazi dal dataset
-    df['home_team'] = df['home_team'].str.replace(" ", "_")
-    df['away_team'] = df['away_team'].str.replace(" ", "_")
-    df['tournament'] = df['tournament'].str.replace(" ", "_")
-    # non so se presente lo spazio ma modifico comunque
-    df['country'] = df['country'].str.replace(" ", "_")
-    df['city'] = df['city'].str.replace(" ", "_")
+    # # elimino gli spazi dal dataset
+    # df['home_team'] = df['home_team'].str.replace(" ", "_")
+    # df['away_team'] = df['away_team'].str.replace(" ", "_")
+    # df['tournament'] = df['tournament'].str.replace(" ", "_")
+    # # non so se presente lo spazio ma modifico comunque
+    # df['country'] = df['country'].str.replace(" ", "_")
+    # df['city'] = df['city'].str.replace(" ", "_")
 
-    print("Extracting label from categorical data")
-    label_encode_df(df)
+    # print("Extracting label from categorical data")
+    # label_encode_df(df)
 
-    print("CSV created correctly!")
+    # print("CSV created correctly!")
 
-    df.loc[:,'weight'] = df['tournament'].apply(add_weight)
-    df.loc[:,'weight'] = 1 / ((2022 - df['year'].astype('int64'))*df['weight'])
+    # df.loc[:,'weight'] = df['tournament'].apply(add_weight)
+    # df.loc[:,'weight'] = 1 / ((2022 - df['year'].astype('int64'))*df['weight'])
 
-    print("Added weight for each match")
+    # print("Added weight for each match")
 
-    # prepara il modello a partire da qui
-    df[['home_score','away_score']].apply(zscore)
+    # # prepara il modello a partire da qui
+    # df[['home_score','away_score']].apply(zscore)
 
-    print("Applied z-score on home and away score")
+    # print("Applied z-score on home and away score")
 
-    df.drop(columns=['year']).to_csv(path.join(PATH_DST, 'dataset_v4_TEMP.csv'))
+    # df.drop(columns=['year']).to_csv(path.join(PATH_DST, 'dataset_v4_TEMP.csv'))
 
-    print("***"*5)
-    print("ENDED COMPUTATION ON PART 1")
-    print("***"*5)
+    # print("***"*5)
+    # print("ENDED COMPUTATION ON PART 1")
+    # print("***"*5)
 
     # PARTE 2 ---- CORRELAZIONE TRA VARIABILI
 
-    # df = pd.read_csv(path.join(PATH_DST, 'dataset_v4_TEST_NOPUSH.csv'))
+    ### to do ....
 
-    # corr = df.corr(method='spearman').unstack().sort_values(ascending=False).drop_duplicates()
+    df = pd.read_csv(path.join(PATH_DST, 'dataset_v4_TEST_NOPUSH.csv'))
 
-    # strong_corr = corr[(corr >= .7) & (corr <= 1)]
-    # moderate_corr = corr[(corr >= .3) & (corr <= .7)]
-    # weak_corr = corr[(corr >= .0) & (corr <= .3)]
+    corr = df.corr(method='spearman').unstack().sort_values(ascending=False).drop_duplicates()
 
-    # print("Strong correlation: ")
-    # print(strong_corr)
-    # print("*=*"*5)
-    # print("Moderate correlation: ")
-    # print(moderate_corr)
-    # print("*=*"*5)
-    # print("Weak correlation: ")
-    # print(weak_corr)
+    strong_corr = corr[(corr >= .7) & (corr <= 1)]
+    moderate_corr = corr[(corr >= .3) & (corr <= .7)]
+    weak_corr = corr[(corr >= .0) & (corr <= .3)]
 
-    # sns.heatmap(df.corr(),annot=True)
+    print("Strong correlation: ")
+    print(strong_corr)
+    print("*=*"*5)
+    print("Moderate correlation: ")
+    print(moderate_corr)
+    print("*=*"*5)
+    print("Weak correlation: ")
+    print(weak_corr)
+
+    sns.heatmap(df.corr(),annot=True)
     # plt.show()
