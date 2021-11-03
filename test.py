@@ -30,9 +30,20 @@ if __name__ == "__main__":
     # print(df.isna().any(axis=None))
     # df.to_csv(path.join(PATH_DST, 'dataset_v3weight.csv'))
 
-    # Parte 2 --- Distribuzione di goal fatti/subiti di tute le quadre se segnano
+    # PARTE 2 --- Distribuzione di goal fatti/subiti di tute le quadre se segnano
 
     df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
+    
+    # sns.histplot(df[df['home_score']>0]['home_score'],kde=True,bins=30, color='g', label='Home Score')
+    # sns.histplot(df[df['away_score']>0]['away_score'], kde=True, bins=30, color='r', label='Away Score')
+    # plt.legend()
+    # plt.xticks([i for i in range(1,21)])
+    # plt.yticks([i for i in range(1000,13000,2000)])
+    # plt.xlabel("Score")
+    # plt.ylabel("Frequency")
+    # plt.show()
+
+    # PARTE 3 --- scatterplot tra home, away goals and outcome
 
 
     # PARTE 1 ---- PREPARAZIONE DATASET
