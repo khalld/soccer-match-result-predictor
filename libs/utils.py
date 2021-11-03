@@ -5,6 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import datetime
 from os import path
+from sklearn import preprocessing
 
 def format_dataframe(df):
 
@@ -334,6 +335,62 @@ def cumsum_graph_splitted(df, team_name):
     plt.show()
 
 
+def add_weight(value):
+    df_tournaments = pd.read_csv(path.join("libs/csv" ,"coded_tournament.csv"))
+
+    value = df_tournaments.query("label == @value").name.values[0]
+
+    if 'FIFA' in value or 'UEFA' in value or 'CONCACAF' in value or 'AFC' in value:
+        return 1
+    else :
+        return 100
+
+def label_encode_df(df):
+    label_encoder = preprocessing.LabelEncoder()
+
+    # Prepare DF to label encoding for home_team and away_team
+    df_teams = pd.DataFrame()
+    df_teams['name'] = df['home_team'].drop_duplicates().sort_values().reset_index().drop(labels=['index'], axis=1)
+    df_teams['label'] = label_encoder.fit_transform(df_teams['name'])
+
+    # Tournaments label encoding
+    df_tournament = pd.DataFrame()
+    df_tournament['name'] = df['tournament'].drop_duplicates().sort_values().reset_index().drop(labels=['index'], axis=1)
+    df_tournament['label'] = label_encoder.fit_transform(df_tournament['name'])
+
+    df_country = pd.DataFrame()
+    df_country['name'] = df['country'].drop_duplicates().sort_values().reset_index().drop(labels=['index'], axis=1)
+    df_country['label'] = label_encoder.fit_transform(df_country['name'])
+
+    df_city = pd.DataFrame()
+    df_city['name'] = df['city'].drop_duplicates().sort_values().reset_index().drop(labels=['index'], axis=1)
+    df_city['label'] = label_encoder.fit_transform(df_city['name'])
+
+    df_continent = pd.DataFrame()
+    df_continent['name'] = df['continent'].drop_duplicates().sort_values().reset_index().drop(labels=['index'], axis=1)
+    df_continent['label'] = label_encoder.fit_transform(df_continent['name'])
+
+    for i, row in df.iterrows():
+
+        df.at[i, 'home_team'] = df_teams.query("name == @row.home_team")["label"].values.astype(float)[0]
+        df.at[i, 'away_team'] = df_teams.query("name == @row.away_team")["label"].values.astype(float)[0]
+        df.at[i, 'tournament'] = df_tournament.query("name == @row.tournament")["label"].values.astype(float)[0]
+        df.at[i, 'country'] = df_country.query("name == @row.country")["label"].values.astype(float)[0]
+        df.at[i, 'city'] = df_city.query("name == @row.city")["label"].values.astype(float)[0]
+        df.at[i, 'continent'] = df_continent.query("name == @row.continent")["label"].values.astype(float)[0]
+
+    df['home_team'] = df['home_team'].astype(float)
+    df['away_team'] = df['away_team'].astype(float)
+    df['tournament'] = df['tournament'].astype(float)
+    df['country'] = df['country'].astype(float)
+    df['city'] = df['city'].astype(float)
+    df['continent'] = df['continent'].astype(float)
+
+    df_teams.to_csv(path.join("libs/csv" ,"coded_teams.csv"))
+    df_tournament.to_csv(path.join("libs/csv" ,"coded_tournament.csv"))
+    df_city.to_csv(path.join("libs/csv" ,"coded_city.csv"))
+    df_country.to_csv(path.join("libs/csv" ,"coded_country.csv"))
+    df_continent.to_csv(path.join("libs/csv" ,"coded_continent.csv"))
 
 def convert_onehot(home_team, away_team, tournament='Friendly', city='Rome', country='Italy', continent='Europe', neutral=0): # = 1 True = 0 False
     # load dataframes ...
