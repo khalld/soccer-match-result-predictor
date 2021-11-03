@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     # PARTE 2 --- Distribuzione di goal fatti/subiti di tute le quadre se segnano
 
-    df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
+    # df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
     
     # sns.histplot(df[df['home_score']>0]['home_score'],kde=True,bins=30, color='g', label='Home Score')
     # sns.histplot(df[df['away_score']>0]['away_score'], kde=True, bins=30, color='r', label='Away Score')
@@ -45,40 +45,41 @@ if __name__ == "__main__":
 
     # PARTE 3 --- scatterplot tra home, away goals and outcome
 
+    # sns.scatterplot(data=df, x="home_score", y="away_score", hue="outcome")#, style="time")
+    # plt.show()
 
-    # PARTE 1 ---- PREPARAZIONE DATASET
+    # PARTE 4 --- preparazione dataset
 
-    # df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
-    # print("Preparing DataFrame")
+    df = pd.read_csv(path.join(PATH_DST, 'dataset_v3weight.csv')).drop(columns=['Unnamed: 0'])
+    print("Preparing DataFrame")
 
-    # df['neutral'] = df['neutral'].astype(float)
-    # df['outcome'] = df['outcome'].replace({"Home": 1.0, "Draw": 0, "Away": 2})
+    df['home_score'] = zscore(df['home_score'])
+    df['away_score'] = zscore(df['away_score'])
+    df['neutral'] = df['neutral'].astype(float)
+    df['outcome'] = df['outcome'].replace({"Home": 1.0, "Draw": 0, "Away": 2})
 
-    # # elimino gli spazi dal dataset
-    # df['home_team'] = df['home_team'].str.replace(" ", "_")
-    # df['away_team'] = df['away_team'].str.replace(" ", "_")
-    # df['tournament'] = df['tournament'].str.replace(" ", "_")
-    # # non so se presente lo spazio ma modifico comunque
-    # df['country'] = df['country'].str.replace(" ", "_")
-    # df['city'] = df['city'].str.replace(" ", "_")
+    # elimino gli eventuali spazi dal dataset
+    df['home_team'] = df['home_team'].str.replace(" ", "_")
+    df['away_team'] = df['away_team'].str.replace(" ", "_")
+    df['tournament'] = df['tournament'].str.replace(" ", "_")
+    df['country'] = df['country'].str.replace(" ", "_")
+    df['city'] = df['city'].str.replace(" ", "_")
 
-    # print("Extracting label from categorical data")
-    # label_encode_df(df)
+    print("Extracting label from categorical data")
+    label_encode_df(df)
+    print("CSVs created correctly!")
+    print("Applied z-score on home and away score")
 
-    # print("CSV created correctly!")
+    df.drop(columns=['year']).to_csv(path.join(PATH_DST, 'dataset_v4_TEMP.csv'))
 
-    # # prepara il modello a partire da qui
-    # df[['home_score','away_score']].apply(zscore)
+    print("***"*5 + "ENDED COMPUTATION first" + "***"*5)
 
-    # print("Applied z-score on home and away score")
+    # PARTE 5 --- regplot to do ...
 
-    # df.drop(columns=['year']).to_csv(path.join(PATH_DST, 'dataset_v4_TEMP.csv'))
 
-    # print("***"*5)
-    # print("ENDED COMPUTATION ON PART 1")
-    # print("***"*5)
+    # sns.regplot('home_score','outcome',df)
 
-    # PARTE 2 ---- CORRELAZIONE TRA VARIABILI
+
 
     # corr = df.corr(method='spearman').unstack().sort_values(ascending=False).drop_duplicates()
     # strong_corr = corr[(corr >= .7) & (corr <= 1)]
@@ -94,10 +95,7 @@ if __name__ == "__main__":
     # print("Weak correlation: ")
     # print(weak_corr)
 
-    print(df.columns)
-
     # sns.regplot('al','window_glass',df)
-
 
     # sns.heatmap(df.corr(),annot=True)
     # plt.show()
