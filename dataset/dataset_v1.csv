@@ -787,7 +787,7 @@
 785,1924-03-01,Scotland,Northern Ireland,2.0,0.0,British Championship,Glasgow,Scotland,False,Home,1924
 786,1924-03-03,England,Wales,1.0,2.0,British Championship,Blackburn,England,False,Away,1924
 787,1924-03-09,Italy,Spain,0.0,0.0,Friendly,Milan,Italy,False,Draw,1924
-788,1924-03-13,Catalonia,Spain,0.0,7.0,Friendly,Barcelona,Spain,False,Away,1924
+788,1924-03-13,Spain,Catalonia,7.0,0.0,Friendly,Barcelona,Spain,False,Home,1924
 789,1924-03-15,Northern Ireland,Wales,0.0,1.0,British Championship,Belfast,Northern Ireland,False,Away,1924
 790,1924-03-23,Netherlands,Belgium,1.0,1.0,Friendly,Amsterdam,Netherlands,False,Draw,1924
 791,1924-03-23,Switzerland,France,3.0,0.0,Friendly,Geneva,Switzerland,False,Home,1924
@@ -1617,7 +1617,7 @@
 1615,1933-09-24,Yugoslavia,Switzerland,2.0,2.0,FIFA World Cup qualification,Belgrade,Yugoslavia,False,Draw,1933
 1616,1933-10-01,Austria,Hungary,2.0,2.0,Friendly,Vienna,Austria,False,Draw,1933
 1617,1933-10-04,Wales,Scotland,3.0,2.0,British Championship,Cardiff,Wales,False,Home,1933
-1618,1933-10-04,Silesia,Poland,1.0,2.0,Friendly,Katowice,Poland,False,Away,1933
+1618,1933-10-04,Poland,Silesia,2.0,1.0,Friendly,Katowice,Poland,False,Home,1933
 1619,1933-10-08,Aruba,Curaçao,1.0,3.0,Friendly,Oranjestad,Aruba,False,Away,1933
 1620,1933-10-08,Denmark,Finland,2.0,0.0,Nordic Championship,Copenhagen,Denmark,False,Home,1933
 1621,1933-10-11,Aruba,Curaçao,0.0,2.0,Friendly,Oranjestad,Aruba,False,Away,1933
@@ -1649,7 +1649,7 @@
 1647,1934-01-21,Belgium,France,2.0,3.0,Friendly,Brussels,Belgium,False,Away,1934
 1648,1934-01-28,Haiti,Cuba,1.0,3.0,FIFA World Cup qualification,Port-au-Prince,Haiti,False,Away,1934
 1649,1934-02-01,Haiti,Cuba,1.0,1.0,FIFA World Cup qualification,Port-au-Prince,Haiti,False,Draw,1934
-1650,1934-02-02,Catalonia,Spain,0.0,2.0,Friendly,Barcelona,Spain,False,Away,1934
+1650,1934-02-02,Spain,Catalonia,2.0,0.0,Friendly,Barcelona,Spain,False,Home,1934
 1651,1934-02-04,Haiti,Cuba,0.0,6.0,FIFA World Cup qualification,Port-au-Prince,Haiti,False,Away,1934
 1652,1934-02-11,Italy,Austria,2.0,4.0,International Cup,Turin,Italy,False,Away,1934
 1653,1934-02-25,Republic of Ireland,Belgium,4.0,4.0,FIFA World Cup qualification,Dublin,Irish Free State,True,Draw,1934
@@ -2753,7 +2753,7 @@
 2751,1947-10-12,Yugoslavia,Bulgaria,2.0,1.0,Balkan Cup,Zagreb,Yugoslavia,False,Home,1947
 2752,1947-10-18,Wales,England,0.0,3.0,British Championship,Cardiff,Wales,False,Away,1947
 2753,1947-10-19,Yugoslavia,Poland,7.0,1.0,Friendly,Belgrade,Yugoslavia,False,Home,1947
-2754,1947-10-19,Catalonia,Spain,3.0,1.0,Friendly,Barcelona,Spain,False,Home,1947
+2754,1947-10-19,Spain,Catalonia,1.0,3.0,Friendly,Barcelona,Spain,False,Away,1947
 2755,1947-10-26,IR Iran,Turkey,1.0,3.0,Friendly,Teheran,IR Iran,False,Away,1947
 2756,1947-10-26,Romania,Poland,0.0,0.0,Friendly,Bucharest,Romania,False,Draw,1947
 2757,1947-11-02,Switzerland,Belgium,4.0,0.0,Friendly,Geneva,Switzerland,False,Home,1947
@@ -3486,7 +3486,7 @@
 3484,1953-04-24,Singapore,Korea Republic,0.0,0.0,Friendly,Kallang,Singapore,False,Draw,1953
 3485,1953-04-26,Czechoslovakia,Italy,2.0,0.0,International Cup,Prague,Czechoslovakia,False,Home,1953
 3486,1953-04-26,Hungary,Austria,1.0,1.0,Friendly,Budapest,Hungary,False,Draw,1953
-3487,1953-04-26,Silesia,Poland,2.0,3.0,Friendly,Chorzów,Poland,False,Away,1953
+3487,1953-04-26,Poland,Silesia,3.0,2.0,Friendly,Chorzów,Poland,False,Home,1953
 3488,1953-04-30,Indonesia,Korea Republic,1.0,3.0,Friendly,So Kon Po,Hong Kong,True,Away,1953
 3489,1953-05-06,Scotland,Sweden,1.0,2.0,Friendly,Glasgow,Scotland,False,Away,1953
 3490,1953-05-09,Yugoslavia,Greece,1.0,0.0,FIFA World Cup qualification,Belgrade,Yugoslavia,False,Home,1953
@@ -3525,7 +3525,7 @@
 3523,1953-07-28,Peru,Chile,5.0,0.0,Copa del Pacífico,Lima,Peru,False,Home,1953
 3524,1953-08-05,Finland,Sweden,3.0,3.0,FIFA World Cup qualification,Helsinki,Finland,False,Draw,1953
 3525,1953-08-09,Denmark,Iceland,4.0,0.0,Friendly,Copenhagen,Denmark,False,Home,1953
-3526,1953-08-09,Catalonia,Spain,0.0,6.0,Friendly,Barcelona,Spain,False,Away,1953
+3526,1953-08-09,Spain,Catalonia,6.0,0.0,Friendly,Barcelona,Spain,False,Home,1953
 3527,1953-08-10,Jamaica,Trinidad and Tobago,3.0,2.0,Friendly,Kingston,Jamaica,False,Home,1953
 3528,1953-08-11,Jamaica,Trinidad and Tobago,0.0,1.0,Friendly,Kingston,Jamaica,False,Away,1953
 3529,1953-08-13,Norway,Iceland,3.0,1.0,Friendly,Bergen,Norway,False,Home,1953
@@ -3538,7 +3538,7 @@
 3536,1953-09-11,Vanuatu,Tahiti,2.0,4.0,Friendly,Port Vila,New Hebrides,False,Away,1953
 3537,1953-09-13,Bulgaria,Poland,2.0,2.0,Friendly,Sofia,Bulgaria,False,Draw,1953
 3538,1953-09-13,Norway,Denmark,0.0,1.0,Nordic Championship,Oslo,Norway,False,Away,1953
-3539,1953-09-13,Silesia,Poland,3.0,3.0,Friendly,Byton,Poland,False,Draw,1953
+3539,1953-09-13,Poland,Silesia,3.0,3.0,Friendly,Byton,Poland,False,Draw,1953
 3540,1953-09-14,Vanuatu,Tahiti,2.0,4.0,Friendly,Port Vila,New Hebrides,False,Away,1953
 3541,1953-09-19,Uganda,Burundi,9.0,1.0,Friendly,Kampala,Uganda,False,Home,1953
 3542,1953-09-20,Czechoslovakia,Switzerland,5.0,0.0,International Cup,Prague,Czechoslovakia,False,Home,1953
@@ -28847,7 +28847,7 @@
 28845,2006-11-19,Găgăuzia,Greenland,0.0,2.0,ELF Cup,Kyrenia,Northern Cyprus,True,Away,2006
 28846,2006-11-19,Kyrgyzstan,Zanzibar,0.0,1.0,ELF Cup,Kyrenia,Northern Cyprus,True,Away,2006
 28847,2006-11-19,Tibet,Tajikistan,0.0,3.0,ELF Cup,Güzelyurt,Northern Cyprus,True,Away,2006
-28848,2006-11-19,Crimea,Northern Cyprus,0.0,5.0,ELF Cup,Lefkoşa,Northern Cyprus,False,Away,2006
+28848,2006-11-19,Northern Cyprus,Crimea,5.0,0.0,ELF Cup,Lefkoşa,Northern Cyprus,False,Home,2006
 28849,2006-11-20,Cambodia,East Timor,4.0,1.0,AFF Championship,Bacolod,Philippines,True,Home,2006
 28850,2006-11-20,Occitania,Sápmi,0.0,7.0,Viva World Cup,Costebelle,France,False,Away,2006
 28851,2006-11-20,Găgăuzia,Kyrgyzstan,1.0,6.0,ELF Cup,Gazimağusa,Northern Cyprus,True,Away,2006
@@ -28897,7 +28897,7 @@
 28895,2006-12-08,Rwanda,Zambia,0.0,1.0,CECAFA Cup,Addis Abeba,Ethiopia,True,Away,2006
 28896,2006-12-08,Uganda,Sudan,2.0,2.0,CECAFA Cup,Addis Abeba,Ethiopia,True,Draw,2006
 28897,2006-12-09,Tanzania,Congo DR,2.0,0.0,Friendly,Dar es Salaam,Tanzania,False,Home,2006
-28898,2006-12-09,Silesia,Poland,1.0,1.0,Friendly,Chorzów,Poland,False,Draw,2006
+28898,2006-12-09,Poland,Silesia,1.0,1.0,Friendly,Chorzów,Poland,False,Draw,2006
 28899,2006-12-10,Rwanda,Uganda,0.0,0.0,CECAFA Cup,Addis Abeba,Ethiopia,True,Draw,2006
 28900,2006-12-10,United Arab Emirates,Slovakia,1.0,2.0,Friendly,Abu Dhabi,United Arab Emirates,False,Away,2006
 28901,2006-12-10,Zambia,Sudan,0.0,0.0,CECAFA Cup,Addis Abeba,Ethiopia,True,Draw,2006
@@ -31764,7 +31764,7 @@
 31762,2009-10-26,Kuwait,Syria,1.0,0.0,Friendly,Al-Jahra,Kuwait,False,Home,2009
 31763,2009-10-26,Zimbabwe,Botswana,1.0,0.0,COSAFA Cup,Bulawayo,Zimbabwe,False,Home,2009
 31764,2009-10-26,South Africa,Angola,2.0,0.0,COSAFA Cup,Bulawayo,Zimbabwe,True,Home,2009
-31765,2009-10-28,South Africa,Zimbabwe,1.0,1.0,COSAFA Cup,Harare,Zimbabwe,False,Draw,2009
+31765,2009-10-28,Zimbabwe,South Africa,1.0,1.0,COSAFA Cup,Harare,Zimbabwe,False,Draw,2009
 31766,2009-10-28,Curaçao,French Guiana,1.0,4.0,Friendly,Paramaribo,Suriname,True,Away,2009
 31767,2009-10-29,Mozambique,Zambia,0.0,2.0,COSAFA Cup,Bulawayo,Zimbabwe,True,Away,2009
 31768,2009-10-30,Guyana,Curaçao,1.0,0.0,Friendly,Paramaribo,Suriname,True,Home,2009
@@ -39598,7 +39598,7 @@
 39596,2018-01-20,Angola,Cameroon,1.0,0.0,African Nations Championship,Agadir,Morocco,True,Home,2018
 39597,2018-01-20,Congo,Burkina Faso,2.0,0.0,African Nations Championship,Agadir,Morocco,True,Home,2018
 39598,2018-01-21,Mauritania,Guinea,0.0,1.0,African Nations Championship,Marrakech,Morocco,True,Away,2018
-39599,2018-01-21,Sudan,Morocco,0.0,0.0,African Nations Championship,Casablanca,Morocco,False,Draw,2018
+39599,2018-01-21,Morocco,Sudan,0.0,0.0,African Nations Championship,Casablanca,Morocco,False,Draw,2018
 39600,2018-01-22,Namibia,Zambia,1.0,1.0,African Nations Championship,Casablanca,Morocco,True,Draw,2018
 39601,2018-01-22,Uganda,Côte d'Ivoire,0.0,0.0,African Nations Championship,Marrakech,Morocco,True,Draw,2018
 39602,2018-01-23,Equatorial Guinea,Nigeria,1.0,3.0,African Nations Championship,Agadir,Morocco,True,Away,2018
@@ -40305,7 +40305,7 @@
 40303,2018-11-03,Malaysia,Maldives,3.0,0.0,Friendly,Kuala Lumpur,Malaysia,False,Home,2018
 40304,2018-11-08,Cambodia,Malaysia,0.0,1.0,AFF Championship,Phnom Penh,Cambodia,False,Away,2018
 40305,2018-11-08,Laos,Vietnam,0.0,3.0,AFF Championship,Vientiane,Laos,False,Away,2018
-40306,2018-11-09,Timor-Leste,Thailand,0.0,7.0,AFF Championship,Bangkok,Thailand,False,Away,2018
+40306,2018-11-09,Thailand,Timor-Leste,7.0,0.0,AFF Championship,Bangkok,Thailand,False,Home,2018
 40307,2018-11-09,Singapore,Indonesia,1.0,0.0,AFF Championship,Kallang,Singapore,False,Home,2018
 40308,2018-11-11,Korea DPR,Mongolia,4.0,1.0,EAFF Championship,Taipei,Taiwan,True,Home,2018
 40309,2018-11-11,Taiwan,Hong Kong,1.0,2.0,EAFF Championship,Taipei,Taiwan,False,Away,2018
@@ -40496,7 +40496,7 @@
 40494,2019-01-09,Japan,Turkmenistan,3.0,2.0,AFC Asian Cup,Abu Dhabi,United Arab Emirates,True,Home,2019
 40495,2019-01-09,Uzbekistan,Oman,2.0,1.0,AFC Asian Cup,Sharjah,United Arab Emirates,True,Home,2019
 40496,2019-01-10,Bahrain,Thailand,0.0,1.0,AFC Asian Cup,Dubai,United Arab Emirates,True,Away,2019
-40497,2019-01-10,India,United Arab Emirates,0.0,2.0,AFC Asian Cup,Abu Dhabi,United Arab Emirates,False,Away,2019
+40497,2019-01-10,United Arab Emirates,India,2.0,0.0,AFC Asian Cup,Abu Dhabi,United Arab Emirates,False,Home,2019
 40498,2019-01-10,Jordan,Syria,2.0,0.0,AFC Asian Cup,Al Ain,United Arab Emirates,True,Home,2019
 40499,2019-01-11,Estonia,Finland,2.0,1.0,Friendly,Doha,Qatar,True,Home,2019
 40500,2019-01-11,Iceland,Sweden,2.0,2.0,Friendly,Doha,Qatar,True,Draw,2019
@@ -40536,7 +40536,7 @@
 40534,2019-01-25,United Arab Emirates,Australia,1.0,0.0,AFC Asian Cup,Al Ain,United Arab Emirates,False,Home,2019
 40535,2019-01-27,USA,Panama,3.0,0.0,Friendly,Glendale,USA,False,Home,2019
 40536,2019-01-28,IR Iran,Japan,0.0,3.0,AFC Asian Cup,Al Ain,United Arab Emirates,True,Away,2019
-40537,2019-01-29,Qatar,United Arab Emirates,4.0,0.0,AFC Asian Cup,Abu Dhabi,United Arab Emirates,False,Home,2019
+40537,2019-01-29,United Arab Emirates,Qatar,0.0,4.0,AFC Asian Cup,Abu Dhabi,United Arab Emirates,False,Away,2019
 40538,2019-02-01,Japan,Qatar,1.0,3.0,AFC Asian Cup,Abu Dhabi,United Arab Emirates,True,Away,2019
 40539,2019-02-02,USA,Costa Rica,2.0,0.0,Friendly,San Jose,USA,False,Home,2019
 40540,2019-02-21,Kazakhstan,Moldova,1.0,0.0,Friendly,Belek,Turkey,True,Home,2019
@@ -40712,7 +40712,7 @@
 40710,2019-06-03,Székely Land,Western Armenia,0.0,5.0,CONIFA European Football Cup,Askeran,Azerbaijan,True,Away,2019
 40711,2019-06-03,South Ossetia,Padania,2.0,1.0,CONIFA European Football Cup,Stepanakert,Azerbaijan,True,Home,2019
 40712,2019-06-04,Comoros,Malawi,1.0,2.0,COSAFA Cup,Durban,South Africa,True,Away,2019
-40713,2019-06-04,Uganda,South Africa,1.0,1.0,COSAFA Cup,Durban,South Africa,False,Draw,2019
+40713,2019-06-04,South Africa,Uganda,1.0,1.0,COSAFA Cup,Durban,South Africa,False,Draw,2019
 40714,2019-06-04,Artsakh,Abkhazia,1.0,1.0,CONIFA European Football Cup,Martuni,Azerbaijan,False,Draw,2019
 40715,2019-06-04,Chameria,Sápmi,4.0,0.0,CONIFA European Football Cup,Martakert,Azerbaijan,True,Home,2019
 40716,2019-06-04,South Ossetia,Székely Land,2.0,2.0,CONIFA European Football Cup,Askeran,Azerbaijan,True,Draw,2019
@@ -40905,7 +40905,7 @@
 40903,2019-06-22,Nigeria,Burundi,1.0,0.0,African Cup of Nations,Alexandria,Egypt,True,Home,2019
 40904,2019-06-22,Guinea,Madagascar,2.0,2.0,African Cup of Nations,Alexandria,Egypt,True,Draw,2019
 40905,2019-06-22,Bolivia,Venezuela,1.0,3.0,Copa América,Belo Horizonte,Brazil,True,Away,2019
-40906,2019-06-22,Peru,Brazil,0.0,5.0,Copa América,São Paulo,Brazil,False,Away,2019
+40906,2019-06-22,Brazil,Peru,5.0,0.0,Copa América,São Paulo,Brazil,False,Home,2019
 40907,2019-06-22,Guyana,Panama,2.0,4.0,Gold Cup,Cleveland,USA,True,Away,2019
 40908,2019-06-22,USA,Trinidad and Tobago,6.0,0.0,Gold Cup,Cleveland,USA,False,Home,2019
 40909,2019-06-23,Senegal,Tanzania,2.0,0.0,African Cup of Nations,Cairo,Egypt,True,Home,2019
@@ -42059,7 +42059,7 @@
 42057,2021-03-28,Tunisia,Equatorial Guinea,2.0,1.0,African Cup of Nations qualification,Radès,Tunisia,False,Home,2021
 42058,2021-03-28,Tanzania,Libya,1.0,0.0,African Cup of Nations qualification,Dar es Salaam,Tanzania,False,Home,2021
 42059,2021-03-29,Ecuador,Bolivia,2.0,1.0,Friendly,Guayaquil,Ecuador,False,Home,2021
-42060,2021-03-29,India,United Arab Emirates,0.0,6.0,Friendly,Dubai,United Arab Emirates,False,Away,2021
+42060,2021-03-29,United Arab Emirates,India,6.0,0.0,Friendly,Dubai,United Arab Emirates,False,Home,2021
 42061,2021-03-29,Kuwait,Lebanon,1.0,1.0,Friendly,Dubai,United Arab Emirates,True,Draw,2021
 42062,2021-03-29,Nepal,Bangladesh,2.0,1.0,Friendly,Kathmandu,Nepal,False,Home,2021
 42063,2021-03-29,Uzbekistan,Iraq,0.0,1.0,Friendly,Tashkent,Uzbekistan,False,Away,2021
@@ -42167,12 +42167,12 @@
 42165,2021-06-03,Mexico,Costa Rica,0.0,0.0,CONCACAF Nations League,Denver,USA,True,Draw,2021
 42166,2021-06-03,USA,Honduras,1.0,0.0,CONCACAF Nations League,Denver,USA,False,Home,2021
 42167,2021-06-03,Nepal,Taiwan,2.0,0.0,FIFA World Cup qualification,Kuwait City,Kuwait,True,Home,2021
-42168,2021-06-03,Australia,Kuwait,3.0,0.0,FIFA World Cup qualification,Kuwait City,Kuwait,False,Home,2021
+42168,2021-06-03,Kuwait,Australia,0.0,3.0,FIFA World Cup qualification,Kuwait City,Kuwait,False,Away,2021
 42169,2021-06-03,IR Iran,Hong Kong,3.0,1.0,FIFA World Cup qualification,Arad,IR Iran,False,Home,2021
 42170,2021-06-03,Bahrain,Cambodia,8.0,0.0,FIFA World Cup qualification,Riffa,Bahrain,False,Home,2021
 42171,2021-06-03,Palestine,Singapore,4.0,0.0,FIFA World Cup qualification,Riyadh,Saudi Arabia,True,Home,2021
 42172,2021-06-03,Bangladesh,Afghanistan,1.0,1.0,FIFA World Cup qualification,Doha,Qatar,True,Draw,2021
-42173,2021-06-03,India,Qatar,0.0,1.0,FIFA World Cup qualification,Doha,Qatar,False,Away,2021
+42173,2021-06-03,Qatar,India,1.0,0.0,FIFA World Cup qualification,Doha,Qatar,False,Home,2021
 42174,2021-06-03,United Arab Emirates,Malaysia,4.0,0.0,FIFA World Cup qualification,Dubai,United Arab Emirates,False,Home,2021
 42175,2021-06-03,Thailand,Indonesia,2.0,2.0,FIFA World Cup qualification,Dubai,United Arab Emirates,True,Draw,2021
 42176,2021-06-03,Bolivia,Venezuela,3.0,1.0,FIFA World Cup qualification,La Paz,Bolivia,False,Home,2021
@@ -42238,10 +42238,10 @@
 42236,2021-06-07,Nepal,Jordan,0.0,3.0,FIFA World Cup qualification,Kuwait City,Kuwait,True,Away,2021
 42237,2021-06-07,Australia,Taiwan,5.0,1.0,FIFA World Cup qualification,Kuwait City,Kuwait,True,Home,2021
 42238,2021-06-07,Iraq,Cambodia,4.0,1.0,FIFA World Cup qualification,Arad,IR Iran,True,Home,2021
-42239,2021-06-07,IR Iran,Bahrain,3.0,0.0,FIFA World Cup qualification,Riffa,Bahrain,False,Home,2021
+42239,2021-06-07,Bahrain,IR Iran,0.0,3.0,FIFA World Cup qualification,Riffa,Bahrain,False,Away,2021
 42240,2021-06-07,Uzbekistan,Singapore,5.0,0.0,FIFA World Cup qualification,Riyadh,Saudi Arabia,True,Home,2021
 42241,2021-06-07,Bangladesh,India,0.0,2.0,FIFA World Cup qualification,Doha,Qatar,True,Away,2021
-42242,2021-06-07,Oman,Qatar,0.0,1.0,FIFA World Cup qualification,Doha,Qatar,False,Away,2021
+42242,2021-06-07,Qatar,Oman,1.0,0.0,FIFA World Cup qualification,Doha,Qatar,False,Home,2021
 42243,2021-06-07,Kyrgyzstan,Mongolia,0.0,1.0,FIFA World Cup qualification,Osaka,Japan,True,Away,2021
 42244,2021-06-07,Japan,Tajikistan,4.0,1.0,FIFA World Cup qualification,Suita,Japan,False,Home,2021
 42245,2021-06-07,United Arab Emirates,Thailand,3.0,1.0,FIFA World Cup qualification,Dubai,United Arab Emirates,False,Home,2021
@@ -42275,7 +42275,7 @@
 42273,2021-06-08,Paraguay,Brazil,0.0,2.0,FIFA World Cup qualification,Asunción,Paraguay,False,Away,2021
 42274,2021-06-08,Chile,Bolivia,1.0,1.0,FIFA World Cup qualification,Santiago,Chile,False,Draw,2021
 42275,2021-06-09,Turkmenistan,Lebanon,3.0,2.0,FIFA World Cup qualification,Goyang,Korea Republic,True,Home,2021
-42276,2021-06-09,Sri Lanka,Korea Republic,0.0,5.0,FIFA World Cup qualification,Goyang,Korea Republic,False,Away,2021
+42276,2021-06-09,Korea Republic,Sri Lanka,5.0,0.0,FIFA World Cup qualification,Goyang,Korea Republic,False,Home,2021
 42277,2021-06-09,Niger,Congo,0.0,1.0,Friendly,Antalya,Turkey,True,Away,2021
 42278,2021-06-09,Portugal,Israel,4.0,0.0,Friendly,Lisbon,Portugal,False,Home,2021
 42279,2021-06-09,USA,Costa Rica,4.0,0.0,Friendly,Sandy,USA,False,Home,2021
@@ -42287,11 +42287,11 @@
 42285,2021-06-11,Kuwait,Jordan,0.0,0.0,FIFA World Cup qualification,Kuwait City,Kuwait,False,Draw,2021
 42286,2021-06-11,Cambodia,IR Iran,0.0,10.0,FIFA World Cup qualification,Isa Town,Bahrain,True,Away,2021
 42287,2021-06-11,Hong Kong,Iraq,0.0,1.0,FIFA World Cup qualification,Arad,IR Iran,True,Away,2021
-42288,2021-06-11,Singapore,Saudi Arabia,0.0,3.0,FIFA World Cup qualification,Riyadh,Saudi Arabia,False,Away,2021
+42288,2021-06-11,Saudi Arabia,Singapore,3.0,0.0,FIFA World Cup qualification,Riyadh,Saudi Arabia,False,Home,2021
 42289,2021-06-11,Yemen,Uzbekistan,0.0,1.0,FIFA World Cup qualification,Riyadh,Saudi Arabia,True,Away,2021
 42290,2021-06-11,Afghanistan,Oman,1.0,2.0,FIFA World Cup qualification,Doha,Qatar,True,Away,2021
 42291,2021-06-11,Myanmar,Kyrgyzstan,1.0,8.0,FIFA World Cup qualification,Osaka,Japan,True,Away,2021
-42292,2021-06-11,Indonesia,United Arab Emirates,0.0,5.0,FIFA World Cup qualification,Dubai,United Arab Emirates,False,Away,2021
+42292,2021-06-11,United Arab Emirates,Indonesia,5.0,0.0,FIFA World Cup qualification,Dubai,United Arab Emirates,False,Home,2021
 42293,2021-06-11,Malaysia,Vietnam,1.0,2.0,FIFA World Cup qualification,Dubai,United Arab Emirates,True,Away,2021
 42294,2021-06-11,Congo DR,Mali,1.0,1.0,Friendly,Radès,Tunisia,True,Draw,2021
 42295,2021-06-11,Guinea,Niger,2.0,1.0,Friendly,Antalya,Turkey,True,Home,2021
@@ -42325,7 +42325,7 @@
 42323,2021-06-15,Philippines,Maldives,1.0,1.0,FIFA World Cup qualification,Suzhou,China PR,True,Draw,2021
 42324,2021-06-15,China PR,Syria,3.0,1.0,FIFA World Cup qualification,Suzhou,China PR,False,Home,2021
 42325,2021-06-15,Australia,Jordan,1.0,0.0,FIFA World Cup qualification,Kuwait City,Kuwait,True,Home,2021
-42326,2021-06-15,Taiwan,Kuwait,1.0,2.0,FIFA World Cup qualification,Kuwait City,Kuwait,False,Away,2021
+42326,2021-06-15,Kuwait,Taiwan,2.0,1.0,FIFA World Cup qualification,Kuwait City,Kuwait,False,Home,2021
 42327,2021-06-15,Bahrain,Hong Kong,4.0,0.0,FIFA World Cup qualification,Riffa,Bahrain,False,Home,2021
 42328,2021-06-15,IR Iran,Iraq,1.0,0.0,FIFA World Cup qualification,Arad,IR Iran,False,Home,2021
 42329,2021-06-15,Palestine,Yemen,3.0,0.0,FIFA World Cup qualification,Riyadh,Saudi Arabia,True,Home,2021
