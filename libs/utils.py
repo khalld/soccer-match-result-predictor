@@ -340,7 +340,7 @@ def add_weight(value):
     else :
         return 100
 
-def label_encode_df(df):
+def do_label_encoding(df):
     label_encoder = preprocessing.LabelEncoder()
 
     # Prepare DF to label encoding for home_team and away_team
@@ -387,6 +387,25 @@ def label_encode_df(df):
     df_country.to_csv(path.join("libs/csv" ,"coded_country.csv"))
     df_continent.to_csv(path.join("libs/csv" ,"coded_continent.csv"))
 
+def label_encoding(df):
+    print("***"*5 + "DATAFRAME LOADED" +  "***"*5)
+
+    df['neutral'] = df['neutral'].astype(float)
+    df['outcome'] = df['outcome'].replace({"Home": 1.0, "Draw": 0, "Away": 2})
+
+    # elimino gli eventuali spazi dal dataset
+    df['home_team'] = df['home_team'].str.replace(" ", "_")
+    df['away_team'] = df['away_team'].str.replace(" ", "_")
+    df['tournament'] = df['tournament'].str.replace(" ", "_")
+    df['country'] = df['country'].str.replace(" ", "_")
+    df['city'] = df['city'].str.replace(" ", "_")
+
+    print("Extracting label from categorical data..")
+    do_label_encoding(df)
+    print("Csv delle label salvati correttamente!")
+
+    return df
+
 def convert_onehot(home_team, away_team, tournament='Friendly', city='Rome', country='Italy', continent='Europe', neutral=0): # = 1 True = 0 False
     # load dataframes ...
 
@@ -418,4 +437,3 @@ def convert_onehot_simplified(home_team, away_team, neutral=True):
         predicted_neutral = 0
 
     return [[predicted_home_team, predicted_away_team, predicted_neutral]]
-
