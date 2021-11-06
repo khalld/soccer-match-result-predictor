@@ -29,7 +29,7 @@ plt.rcParams.update({'figure.figsize':(10,10), 'figure.dpi':100})
 PATH_ORIGINAL_DST = 'dataset/original'
 PATH_DST = 'dataset'
 
-if __name__ == "__main__":
+# codice utile riutilizzabile
 
     # Parte 0 --- Aggiungo un peso al dataset
 
@@ -41,74 +41,67 @@ if __name__ == "__main__":
     # print(df.isna().any(axis=None))
     # df.to_csv(path.join(PATH_DST, 'dataset_v3weight.csv'))
 
-    # PARTE 2 --- Distribuzione di goal fatti/subiti di tute le quadre se segnano
-
-    # df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
-    
-    # sns.histplot(df[df['home_score']>0]['home_score'],kde=True,bins=30, color='g', label='Home Score')
-    # sns.histplot(df[df['away_score']>0]['away_score'], kde=True, bins=30, color='r', label='Away Score')
-    # plt.legend()
-    # plt.xticks([i for i in range(1,21)])
-    # plt.yticks([i for i in range(1000,13000,2000)])
-    # plt.xlabel("Score")
-    # plt.ylabel("Frequency")
-    # plt.show()
 
     # PARTE 3 --- scatterplot tra home, away goals and outcome
 
     # sns.scatterplot(data=df, x="home_score", y="away_score", hue="outcome")#, style="time")
     # plt.show()
 
-    # PARTE 4 --- preparazione dataset con label encoding..
 
-    # df = pd.read_csv(path.join(PATH_DST, 'dataset_v3weight.csv')).drop(columns=['Unnamed: 0'])
-    # print("Preparing DataFrame")
-
-    # df['neutral'] = df['neutral'].astype(float)
-    # df['outcome'] = df['outcome'].replace({"Home": 1.0, "Draw": 0, "Away": 2})
-
-    # # elimino gli eventuali spazi dal dataset
-    # df['home_team'] = df['home_team'].str.replace(" ", "_")
-    # df['away_team'] = df['away_team'].str.replace(" ", "_")
-    # df['tournament'] = df['tournament'].str.replace(" ", "_")
-    # df['country'] = df['country'].str.replace(" ", "_")
-    # df['city'] = df['city'].str.replace(" ", "_")
-
-    # print("Extracting label from categorical data")
-    # label_encode_df(df)
-    # print("CSVs created correctly!")
-
-    # df.drop(columns=['year']).to_csv(path.join(PATH_DST, 'dataset_v4.csv'))
-
-    # print("***"*5 + "ENDED COMPUTATION first" + "***"*5)
-
-    # --------- UNDONE --------
     # df['home_score'] = zscore(df['home_score'])
     # df['away_score'] = zscore(df['away_score'])
     # print("Applied z-score on home and away score")
-    # ---------- UNDONE -------
 
-    # PARTE 5 --- regplot to do ...
+if __name__ == "__main__":
 
-    df = pd.read_csv(path.join(PATH_DST, 'dataset_v4.csv')).drop(columns=['Unnamed: 0'])
+    # parto da questo dataset nel notebook
 
-    formula = 'home_score ~ home_team + away_team + neutral'
+    df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
 
-    datamodel = df.drop(columns=[ 'date', 'tournament', 'country', 'city', 'continent' ])
-    # model = ols(formula, datamodel).fit()
+    # LABEL ENCODING
 
-    model = smf.glm(formula=formula, data=datamodel, family=sm.families.Poisson(), freq_weights=datamodel['weight'].values).fit()
+    # df = pd.read_csv(path.join(PATH_DST, 'dataset_v3weight.csv')).drop(columns=['Unnamed: 0'])
+
+    print("***"*5 + "DATAFRAME LOADED" +  "***"*5)
+
+    df['neutral'] = df['neutral'].astype(float)
+    df['outcome'] = df['outcome'].replace({"Home": 1.0, "Draw": 0, "Away": 2})
+
+    # elimino gli eventuali spazi dal dataset
+    df['home_team'] = df['home_team'].str.replace(" ", "_")
+    df['away_team'] = df['away_team'].str.replace(" ", "_")
+    df['tournament'] = df['tournament'].str.replace(" ", "_")
+    df['country'] = df['country'].str.replace(" ", "_")
+    df['city'] = df['city'].str.replace(" ", "_")
+
+    print("Extracting label from categorical data..")
+    label_encode_df(df)
+    print("Csv delle label salvati correttamente!")
+
+    df.drop(columns=['year']).to_csv(path.join(PATH_DST, 'dataset_v3_ENCODED.csv'))
+
+    print("***"*5 + "ENDED LABEL ENCODING PROCESS" + "***"*5)
 
 
-    print(model.summary())
+    # df = pd.read_csv(path.join(PATH_DST, 'dataset_v4.csv')).drop(columns=['Unnamed: 0'])
 
-    print(model.predict({'home_team':1,'away_team': 207,'neutral': 1}))
-    print(model.predict({'home_team':22,'away_team': 1,'neutral': 1}))
-    print(model.predict({'home_team':25,'away_team': 122,'neutral': 1}))
-    print(model.predict({'home_team':27,'away_team': 207,'neutral': 1}))
-    print(model.predict({'home_team':27,'away_team': 207,'neutral': 0}))
-    print(model.predict({'home_team':27,'away_team': 59,'neutral': 0}))
-    print(model.predict({'home_team':207,'away_team': 17,'neutral': 0}))
+    # formula = 'home_score ~ home_team + away_team + neutral'
+
+    # datamodel = df.drop(columns=[ 'date', 'tournament', 'country', 'city', 'continent' ])
+    # # model = ols(formula, datamodel).fit()
+
+    # model = smf.glm(formula=formula, data=datamodel, family=sm.families.Poisson(), freq_weights=datamodel['weight'].values).fit()
+
+
+    # print(model.summary())
+
+    # print(model.predict({'home_team':1,'away_team': 207,'neutral': 1}))
+    # print(model.predict({'home_team':22,'away_team': 1,'neutral': 1}))
+    # print(model.predict({'home_team':25,'away_team': 122,'neutral': 1}))
+    # print(model.predict({'home_team':27,'away_team': 207,'neutral': 1}))
+    # print(model.predict({'home_team':27,'away_team': 207,'neutral': 0}))
+    # print(model.predict({'home_team':27,'away_team': 59,'neutral': 0}))
+    # print(model.predict({'home_team':207,'away_team': 17,'neutral': 0}))
 
 
     # sns.pairplot(df)
