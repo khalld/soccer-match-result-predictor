@@ -71,15 +71,36 @@ if __name__ == "__main__":
     # model = ols(formula=formula, data=df).fit()
     # print(model.summary())
 
-
     # idem di sopra continuo eliminando city
-    print("***"*5 + " FOURTH ITERATION " + "***"*5)
-    formula = "outcome ~ home_team + away_team + continent + neutral"
-    model = ols(formula=formula, data=df, ).fit()
-    print(model.summary())
+    # -------- modello migliore con regressione lineare
+    # print("***"*5 + " FOURTH ITERATION " + "***"*5)
+    # formula = "outcome ~ home_team + away_team + continent + neutral"
+    # model = ols(formula=formula, data=df, ).fit()
+    # print(model.summary())
 
     # aggiungere un peso ad ogni riga del dal dataset non ha fatto migliorare per nulla l'algoritmo
     # neanche applicare lo z-score ai goals
 
+    # ------- inizi test per poisson
+    # print("***"*5 + " POISSON first ITERATION " + "***"*5)
+    # formula = "outcome ~ home_team + away_team + tournament + city + country + continent + neutral"
+    # model = smf.glm(formula=formula, data=df, family=sm.families.Poisson()).fit() # freq_weights, ricorda eventualmente di considerare..
+    # print(model.summary())
 
-    
+    # elimino tournament che è quello col p-value + alto
+    # print("***"*5 + " POISSON second ITERATION " + "***"*5)
+    # formula = "outcome ~ home_team + away_team + city + country + continent + neutral"
+    # model = smf.glm(formula=formula, data=df, family=sm.families.Poisson()).fit() # freq_weights, ricorda eventualmente di considerare..
+    # print(model.summary())
+
+    # elimino country ...
+    # print("***"*5 + " POISSON third ITERATION " + "***"*5)
+    # formula = "outcome ~ home_team + away_team + city + continent + neutral"
+    # model = smf.glm(formula=formula, data=df, family=sm.families.Poisson()).fit() # freq_weights, ricorda eventualmente di considerare..
+    # print(model.summary())
+
+    # elimino city
+    print("***"*5 + " POISSON fourth ITERATION " + "***"*5)
+    formula = "outcome ~ home_team + away_team + continent + neutral"
+    model = smf.glm(formula=formula, data=df, family=sm.families.Poisson()).fit() # freq_weights, ricorda eventualmente di considerare..
+    print(model.summary())
