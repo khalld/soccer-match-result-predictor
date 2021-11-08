@@ -96,21 +96,22 @@ def test_Logit(df):
     model = logit(formula=formula, data=df).fit() # freq_weights, ricorda eventualmente di considerare..
     print(model.summary())
 
-
-
 if __name__ == "__main__":
 
-    # parto da questo dataset nel notebook
+    # ------ PARTO DA QUESTA VERSIONE DEL DATASET DAL NOTEBOOK -------
     # df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
     # print("***"*5 + "STARTING LABEL ENCODING PROCESS" + "***"*5)
     # df = label_encoding(df)
     # df.drop(columns=['year']).to_csv(path.join(PATH_DST, 'dataset_v3_ENCODED.csv'))
     # print("***"*5 + "ENDED LABEL ENCODING PROCESS" + "***"*5)
 
+    # ------ DATASET CON LABEL ENCODING ----------
     df = pd.read_csv(path.join(PATH_DST, 'dataset_v3_ENCODED.csv')).drop(columns=['Unnamed: 0'])
     # print(df.info())
     # print(df.corr())
     # print(df.columns)
+
+    # ------ TESTS -------
 
     # test_Linear_regr(df)
     # test_Poisson(df)
