@@ -406,6 +406,21 @@ def label_encoding(df):
 
     return df
 
+def get_iqr_values(df_in, col_name):
+    median = df_in[col_name].median()
+    q1 = df_in[col_name].quantile(0.25) # 25th percentile / 1st quartile
+    q3 = df_in[col_name].quantile(0.75) # 7th percentile / 3rd quartile
+    iqr = q3-q1 #Interquartile range
+    minimum  = q1-1.5*iqr # The minimum value or the |- marker in the box plot
+    maximum = q3+1.5*iqr # The maximum value or the -| marker in the box plot
+    return median, q1, q3, iqr, minimum, maximum
+
+def remove_outliers(df_in, col_name):
+    _, _, _, _, minimum, maximum = get_iqr_values(df_in, col_name)
+    df_out = df_in.loc[(df_in[col_name] > minimum) & (df_in[col_name] < maximum)]
+    return df_out
+
+
 def convert_onehot(home_team, away_team, tournament='Friendly', city='Rome', country='Italy', continent='Europe', neutral=0): # = 1 True = 0 False
     # load dataframes ...
 

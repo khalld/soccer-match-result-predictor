@@ -99,14 +99,14 @@ def test_Logit(df):
 if __name__ == "__main__":
 
     # ------ PARTO DA QUESTA VERSIONE DEL DATASET DAL NOTEBOOK -------
-    # df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
+    df = pd.read_csv(path.join(PATH_DST, 'dataset_v4.csv')).drop(columns=['Unnamed: 0'])
     # print("***"*5 + "STARTING LABEL ENCODING PROCESS" + "***"*5)
     # df = label_encoding(df)
     # df.drop(columns=['year']).to_csv(path.join(PATH_DST, 'dataset_v3_ENCODED.csv'))
     # print("***"*5 + "ENDED LABEL ENCODING PROCESS" + "***"*5)
 
     # ------ DATASET CON LABEL ENCODING ----------
-    df = pd.read_csv(path.join(PATH_DST, 'dataset_v3_ENCODED.csv')).drop(columns=['Unnamed: 0'])
+    df = pd.read_csv(path.join(PATH_DST, 'dataset_v4_ENCODED.csv')).drop(columns=['Unnamed: 0'])
     # print(df.info())
     # print(df.corr())
     # print(df.columns)
