@@ -1,7 +1,6 @@
 # Domande al prof
 
 - Va bene il grafico del totale delle partite o devo aggiungere elementi studiati? / Fare l'output delle percentuale?
-- Devo predire l'outcome o i due risultati singoli e mi calcolo successivamente outcome?
 
 
 - Inserire commenti al codice
