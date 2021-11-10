@@ -30,6 +30,7 @@ PATH_ORIGINAL_DST = 'dataset/original'
 PATH_DST = 'dataset'
 
 def test_Linear_regr(df):
+    print("===="*5 + " LINEAR REGRESSION " + "===="*5 )
     print("***"*5 + " FIRST ITERATION " + "***"*5)
     formula = "outcome ~ home_team + away_team + tournament + city + country + continent + neutral"
     model = ols(formula=formula, data=df).fit()
@@ -64,6 +65,8 @@ def test_Linear_regr(df):
     # neanche applicare lo z-score ai goals
 
 def test_Poisson(df):
+    print("===="*5 + " POISSON " + "===="*5 )
+
     # ------- inizi test per poisson
     print("***"*5 + " POISSON first ITERATION " + "***"*5)
     formula = "outcome ~ home_team + away_team + tournament + city + country + continent + neutral"
@@ -98,21 +101,22 @@ def test_Logit(df):
 
 if __name__ == "__main__":
 
+    print("________ PARTE 1 ________")
     # ------ PARTO DA QUESTA VERSIONE DEL DATASET DAL NOTEBOOK -------
     df = pd.read_csv(path.join(PATH_DST, 'dataset_v4.csv')).drop(columns=['Unnamed: 0'])
-    # print("***"*5 + "STARTING LABEL ENCODING PROCESS" + "***"*5)
-    # df = label_encoding(df)
-    # df.drop(columns=['year']).to_csv(path.join(PATH_DST, 'dataset_v3_ENCODED.csv'))
-    # print("***"*5 + "ENDED LABEL ENCODING PROCESS" + "***"*5)
+    print("***"*5 + "STARTING LABEL ENCODING PROCESS" + "***"*5)
+    df = label_encoding(df)
+    df.to_csv(path.join(PATH_DST, 'dataset_v4_ENCODED.csv'))
+    print("***"*5 + "ENDED LABEL ENCODING PROCESS" + "***"*5)
 
+    print("________ PARTE 2 ________")
     # ------ DATASET CON LABEL ENCODING ----------
     df = pd.read_csv(path.join(PATH_DST, 'dataset_v4_ENCODED.csv')).drop(columns=['Unnamed: 0'])
-    # print(df.info())
-    # print(df.corr())
-    # print(df.columns)
+    print(df.info())
+    print(df.corr())
+    print(df.columns)
 
     # ------ TESTS -------
 
-    # test_Linear_regr(df)
-    # test_Poisson(df)
-    test_Logit(df)
+    test_Linear_regr(df)
+    test_Poisson(df)
