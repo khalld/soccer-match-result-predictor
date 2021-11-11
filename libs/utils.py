@@ -1,16 +1,20 @@
-# from numba import jit # import decorator that allow to use gpu
-from timeit import default_timer as timer
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 import datetime
 from os import path
 from sklearn import preprocessing
-import statsmodels.formula.api as smf
-import statsmodels.api as sm
 from scipy.stats import poisson
 
-def format_dataframe(df):
+def get_outcome(home_score, away_score) -> str:
+    if home_score > away_score:
+        return 'Home'
+    if away_score > home_score:
+        return 'Away'
+    if home_score == away_score:
+        return 'Draw'
+
+def format_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
     df = df.astype({"home_score": float, "away_score": float})
 
@@ -108,7 +112,7 @@ def format_dataframe(df):
         df.at[i, 'year'] = int(row_date.strftime('%Y'))
 
         # Calcolo il risultato della partita
-        df.at[i, 'outcome'] = return_outcome(df.iloc[i]['home_score'], df.iloc[i]['away_score'])
+        df.at[i, 'outcome'] = get_outcome(df.iloc[i]['home_score'], df.iloc[i]['away_score'])
 
 
     # Calcolo il risultato della partita dopo i calci di rigore -- DEPRECATO
@@ -119,18 +123,15 @@ def format_dataframe(df):
 
     return df
 
-def get_continent_from_fifa(df, df_fifa):
-    # continente in cui è stato disputato il match
+def extract_continent_from_FIFA(df: pd.DataFrame, df_fifa: pd.DataFrame) -> pd.DataFrame:
     df['continent'] = ''
 
     # mi ricavo le confederazioni delle nazionali dal dataset FIFA
     df_fifa.drop(labels=['rank', 'rank_date', 'rank_change', 'total_points', 'previous_points', 'id'], axis=1, inplace=True)
     df_fifa.drop_duplicates(subset="country_full", keep="first", inplace=True)
 
-    # so già a prescindere che ci saranno delle nazioni non riconosciute
+    # eventuale dataframe con valori spuri
     df_nocontinent_found = pd.DataFrame(columns=df.columns)
-
-    index_mismatches_dst = []
 
     for i in range(0, len(df)):
         if df_fifa[(df_fifa.country_full == df.iloc[i]['country'])]['confederation'].values.__len__() == 1:
@@ -235,17 +236,16 @@ def get_continent_from_fifa(df, df_fifa):
         print("All rows are correctly updated")
     else:
         # per analizzare le eventuali righe spurie salvo il csv
-        df_nocontinent_found.to_csv('output.csv')
+        print(df_nocontinent_found)
 
     return df
 
-def check_records_validity(df, df_fifa):
+def check_records_validity(df: pd.DataFrame, df_fifa: pd.DataFrame) -> pd.DataFrame:
 
     df_valid = df.copy()
     valid_country = df_fifa.country_full.drop_duplicates().sort_values().reset_index(drop=True)
-    # valid_country.to_csv("valid_country_output.csv")
     valid_country = valid_country.values
-    print("Valid country: %s"% (len(valid_country)))
+    print("Total country: %s"% (len(valid_country)))
 
     # assumo che la riga tutte le righe siano valide per diminuire il numero di iterazioni
     df_valid['is_valid'] = True
@@ -256,16 +256,8 @@ def check_records_validity(df, df_fifa):
 
     return df_valid
 
-def return_outcome(home_score, away_score):
-    if home_score > away_score:
-        return 'Home'
-    if away_score > home_score:
-        return 'Away'
-    if home_score == away_score:
-        return 'Draw'
-
 def fix_continent_matches(all_years, df):
-    # uniformizzo il range dei 3 continenti
+    # setto a 0 gli anni in cui il continente non ha ospitato neanche una partita
     not_played_years = set(all_years) - (set(all_years).intersection(df.year.values))
 
     for i in not_played_years:
@@ -275,43 +267,46 @@ def fix_continent_matches(all_years, df):
 
     return df
 
-def cumsum_graph(df, team_name):
+def show_cdf(df: pd.DataFrame, team_name: str) -> None:
     df = df.query("away_team == @team_name or home_team == @team_name")
 
     wins = df.query(
         "home_team == @team_name and outcome == 'Home' or away_team == @team_name and outcome == 'Away' ").value_counts(
         "year").sort_index(ascending=True).cumsum()
     draws = df.query("outcome == 'Draw'").value_counts("year").sort_index(ascending=True).cumsum()
-    losses = df.query(
+    defeats = df.query(
         "home_team == @team_name and outcome == 'Away' or away_team == @team_name and outcome == 'Home' ").value_counts(
         "year").sort_index(ascending=True).cumsum()
-
+    print("%d wins" % wins)
+    print("%d draws" % draws)
+    print("%d defeats" % defeats)
+    
     plt.figure()
     plt.plot(wins)
     plt.plot(draws)
-    plt.plot(losses)
-    plt.legend(['Wins', 'Draws', 'Losses'])
+    plt.plot(defeats)
+    plt.legend(['Wins', 'Draws', 'Defeats'])
     plt.xlabel("Years")
     plt.title(team_name)
     plt.show()
 
-def cumsum_graph_splitted(df, team_name):
-    selected_team_matches = df.query("away_team == @team_name or home_team == @team_name")
+def show_cdf_splitted(df: pd.DataFrame, team_name: str) -> None:
+    team_matches = df.query("away_team == @team_name or home_team == @team_name")
 
-    home_matches = selected_team_matches.query("neutral == False and country == @team_name")
+    home_matches = team_matches.query("neutral == False and country == @team_name")
     wins_home = home_matches.query("home_team == @team_name and outcome == 'Home' or away_team == @team_name and outcome == 'Away' ").value_counts("year").sort_index(ascending=True).cumsum()
     draws_home = home_matches.query("outcome == 'Draw'").value_counts("year").sort_index(ascending=True).cumsum()
-    losses_home = home_matches.query("home_team == @team_name and outcome == 'Away' or away_team == @team_name and outcome == 'Home' ").value_counts("year").sort_index(ascending=True).cumsum()
+    defeats_home = home_matches.query("home_team == @team_name and outcome == 'Away' or away_team == @team_name and outcome == 'Home' ").value_counts("year").sort_index(ascending=True).cumsum()
     
-    away_matches = selected_team_matches.query("neutral == False and country != @team_name")
+    away_matches = team_matches.query("neutral == False and country != @team_name")
     wins_away = away_matches.query("home_team == @team_name and outcome == 'Home' or away_team == @team_name and outcome == 'Away' ").value_counts("year").sort_index(ascending=True).cumsum()
     draws_away = away_matches.query("outcome == 'Draw'").value_counts("year").sort_index(ascending=True).cumsum()
-    losses_away = away_matches.query("home_team == @team_name and outcome == 'Away' or away_team == @team_name and outcome == 'Home' ").value_counts("year").sort_index(ascending=True).cumsum()
+    defeats_away = away_matches.query("home_team == @team_name and outcome == 'Away' or away_team == @team_name and outcome == 'Home' ").value_counts("year").sort_index(ascending=True).cumsum()
 
-    neutral_matches = selected_team_matches.query("neutral == True")
+    neutral_matches = team_matches.query("neutral == True")
     wins_neutral = neutral_matches.query("home_team == @team_name and outcome == 'Home' or away_team == @team_name and outcome == 'Away' ").value_counts("year").sort_index(ascending=True).cumsum()
     draws_neutral = neutral_matches.query("outcome == 'Draw'").value_counts("year").sort_index(ascending=True).cumsum()
-    losses_neutral = neutral_matches.query("home_team == @team_name and outcome == 'Away' or away_team == @team_name and outcome == 'Home' ").value_counts("year").sort_index(ascending=True).cumsum()
+    defeats_neutral = neutral_matches.query("home_team == @team_name and outcome == 'Away' or away_team == @team_name and outcome == 'Home' ").value_counts("year").sort_index(ascending=True).cumsum()
 
     fig, axs = plt.subplots(1, 3)
     
@@ -326,10 +321,10 @@ def cumsum_graph_splitted(df, team_name):
     axs[1].plot(draws_neutral, label='Neutral')
     axs[1].plot(draws_away, label="Away")
 
-    axs[2].set_title('Losses')
-    axs[2].plot(losses_home, label='Home')
-    axs[2].plot(losses_neutral, label='Neutral')
-    axs[2].plot(losses_away, label="Away")
+    axs[2].set_title('Defeats')
+    axs[2].plot(defeats_home, label='Home')
+    axs[2].plot(defeats_neutral, label='Neutral')
+    axs[2].plot(defeats_away, label="Away")
 
     for i in range(0,3):
         axs[i].set_xlabel("Years")
@@ -337,21 +332,14 @@ def cumsum_graph_splitted(df, team_name):
 
     plt.show()
 
-def add_weight(value):
-    if 'FIFA' in value or 'UEFA' in value or 'CONCACAF' in value or 'AFC' in value or 'Cup' in value:
-        return 1
-    else :
-        return 100
-
-def do_label_encoding(df):
+def do_label_encoding(df: pd.DataFrame) -> pd.DataFrame:
     label_encoder = preprocessing.LabelEncoder()
 
-    # Prepare DF to label encoding for home_team and away_team
+    # Estraggo label
     df_teams = pd.DataFrame()
     df_teams['name'] = df['home_team'].drop_duplicates().sort_values().reset_index().drop(labels=['index'], axis=1)
     df_teams['label'] = label_encoder.fit_transform(df_teams['name'])
 
-    # Tournaments label encoding
     df_tournament = pd.DataFrame()
     df_tournament['name'] = df['tournament'].drop_duplicates().sort_values().reset_index().drop(labels=['index'], axis=1)
     df_tournament['label'] = label_encoder.fit_transform(df_tournament['name'])
@@ -368,8 +356,8 @@ def do_label_encoding(df):
     df_continent['name'] = df['continent'].drop_duplicates().sort_values().reset_index().drop(labels=['index'], axis=1)
     df_continent['label'] = label_encoder.fit_transform(df_continent['name'])
 
+    # Sostituisco nel dataframe i label
     for i, row in df.iterrows():
-
         df.at[i, 'home_team'] = df_teams.query("name == @row.home_team")["label"].values.astype(float)[0]
         df.at[i, 'away_team'] = df_teams.query("name == @row.away_team")["label"].values.astype(float)[0]
         df.at[i, 'tournament'] = df_tournament.query("name == @row.tournament")["label"].values.astype(float)[0]
@@ -384,19 +372,22 @@ def do_label_encoding(df):
     df['city'] = df['city'].astype(float)
     df['continent'] = df['continent'].astype(float)
 
+    # Salvo i csv dei label per usarli successivamente
     df_teams.to_csv(path.join("libs/csv" ,"coded_teams.csv"))
     df_tournament.to_csv(path.join("libs/csv" ,"coded_tournament.csv"))
     df_city.to_csv(path.join("libs/csv" ,"coded_city.csv"))
     df_country.to_csv(path.join("libs/csv" ,"coded_country.csv"))
     df_continent.to_csv(path.join("libs/csv" ,"coded_continent.csv"))
 
-def label_encoding(df):
+    return df
+
+def label_encoding(df: pd.DataFrame) -> pd.DataFrame:
     print("***"*5 + "DATAFRAME LOADED" +  "***"*5)
 
     df['neutral'] = df['neutral'].astype(float)
     df['outcome'] = df['outcome'].replace({"Home": 1.0, "Draw": 0, "Away": 2})
 
-    # elimino gli eventuali spazi dal dataset
+    # elimino gli eventuali spazi vuoti dai nomi
     df['home_team'] = df['home_team'].str.replace(" ", "_")
     df['away_team'] = df['away_team'].str.replace(" ", "_")
     df['tournament'] = df['tournament'].str.replace(" ", "_")
@@ -404,30 +395,29 @@ def label_encoding(df):
     df['city'] = df['city'].str.replace(" ", "_")
 
     print("Extracting label from categorical data..")
-    do_label_encoding(df)
+    df_encoded = do_label_encoding(df)
     print("Csv delle label salvati correttamente!")
 
-    return df
+    return df_encoded
 
-def get_iqr_values(df_in, col_name):
-    median = df_in[col_name].median()
-    q1 = df_in[col_name].quantile(0.25) # 25th percentile / 1st quartile
-    q3 = df_in[col_name].quantile(0.75) # 7th percentile / 3rd quartile
-    iqr = q3-q1 #Interquartile range
-    minimum  = q1-1.5*iqr # The minimum value or the |- marker in the box plot
-    maximum = q3+1.5*iqr # The maximum value or the -| marker in the box plot
+def get_describe_values(df_input: pd.DataFrame, col_name: str):
+    median = df_input[col_name].median()
+    q1 = df_input[col_name].quantile(0.25) # 25th percentile / 1st quartile
+    q3 = df_input[col_name].quantile(0.75) # 7th percentile / 3rd quartile
+    iqr = q3-q1 # Range interquartile
+    minimum  = q1-1.5*iqr # Valore minimo o |- marker nel box plot
+    maximum = q3+1.5*iqr # Valore massimo o -| marker nel box plot
     return median, q1, q3, iqr, minimum, maximum
 
-def remove_outliers(df_in, col_name):
-    _, _, _, _, minimum, maximum = get_iqr_values(df_in, col_name)
-    df_out = df_in.loc[(df_in[col_name] > minimum) & (df_in[col_name] < maximum)]
-    return df_out
+def remove_outliers(df_input: pd.DataFrame, col_name: str):
+    # median, q1, q3, iqr, minimum, maximum = get_describe_values(df_input, col_name)
+    # convenzione
+    _, _, _, _, minimum, maximum = get_describe_values(df_input, col_name)
+    df_output = df_input.loc[(df_input[col_name] > minimum) & (df_input[col_name] < maximum)]
+    return df_output
 
-
-def convert_onehot(home_team, away_team, tournament='Friendly', city='Rome', country='Italy', continent='Europe', neutral=0): # = 1 True = 0 False
-    # load dataframes ...
-
-    
+# __DEPRECATO__?
+def convert_onehot(home_team, away_team, tournament='Friendly', city='Rome', country='Italy', continent='Europe', neutral=0): # = 1 True = 0 False    
     df_teams = pd.read_csv(path.join("libs/csv" ,"coded_teams.csv"))
     df_tournament = pd.read_csv(path.join("libs/csv" ,"coded_tournament.csv"))
     df_city = pd.read_csv(path.join("libs/csv" ,"coded_city.csv"))
@@ -444,6 +434,7 @@ def convert_onehot(home_team, away_team, tournament='Friendly', city='Rome', cou
 
     return [[predicted_home_team, predicted_away_team, predicted_tournament, predicted_city, predicted_country, predicted_neutral, predicted_continent]]
 
+# __DEPRECATO__?
 def convert_onehot_simplified(home_team, away_team, neutral=True):
     df_teams = pd.read_csv(path.join("libs/csv" ,"coded_teams.csv"))
 
@@ -456,40 +447,41 @@ def convert_onehot_simplified(home_team, away_team, neutral=True):
 
     return [[predicted_home_team, predicted_away_team, predicted_neutral]]
 
-
-def get_proba_match(foot_model, team1, team2, max_goals=10):
-    # Get the average goal for each team
-    t1_goals_avg = foot_model.predict(pd.DataFrame(data={'team': team1, 'opponent': team2}, index=[1])).values[0]
-    t2_goals_avg = foot_model.predict(pd.DataFrame(data={'team': team2, 'opponent': team1}, index=[1])).values[0]
+def get_proba_match(model, team1: str, team2: str, max_goals=10):
+    # Media dei goal per ogni squadra
+    t1_goals_avg = model.predict(pd.DataFrame(data={'team': team1, 'opponent': team2}, index=[1])).values[0]
+    t2_goals_avg = model.predict(pd.DataFrame(data={'team': team2, 'opponent': team1}, index=[1])).values[0]
     
-    # Get probability of all possible score for each team
+    # Probabilità di fare dei goal per ogni team
     team_pred = [[poisson.pmf(i, team_avg) for i in range(0, max_goals+1)] for team_avg in [t1_goals_avg, t2_goals_avg]]
     
-    # Do the product of the 2 vectors to get the matrix of the match
+    # Prodotto dei due vettori per ottenere la matrice della partita
     match = np.outer(np.array(team_pred[0]), np.array(team_pred[1]))
     
-    # Get the proba for each possible outcome
+    # Probabilità per ogni possibile risultato
     t1_wins = np.sum(np.tril(match, -1))
     draw = np.sum(np.diag(match))
     t2_wins = np.sum(np.triu(match, 1))
     result_proba = [t1_wins, draw, t2_wins]
     
     # Adjust the proba to sum to one
+    # Italiano? TODO
     result_proba =  np.array(result_proba)/ np.array(result_proba).sum(axis=0,keepdims=1)
     team_pred[0] = np.array(team_pred[0])/np.array(team_pred[0]).sum(axis=0,keepdims=1)
     team_pred[1] = np.array(team_pred[1])/np.array(team_pred[1]).sum(axis=0,keepdims=1)
+    
     return result_proba, [np.array(team_pred[0]), np.array(team_pred[1])]
 
-def get_match_result(foot_model, team1, team2, elimination=False, max_draw=50, max_goals=10):
-    # Get the proba
-    proba, score_proba = get_proba_match(foot_model, team1, team2, max_goals)
+# Sostituisci max_goals con gli outliers TODO
+def get_match_result(model, team1: str, team2: str, max_draw=50, max_goals=10):
+    # Get probabilità
+    proba, score_proba = get_proba_match(model, team1, team2, max_goals)
     
-    # Get the result, if it's an elimination game we have to be sure the result is not draw
     results = pd.Series([np.random.choice([team1, 'draw', team2], p=proba) for i in range(0,max_draw)]).value_counts()
-    result = results.index[0] if not elimination or (elimination and results.index[0] != 'draw') else results.index[1]
+    result = results.index[0]
     
-    # If the result is not a draw game then we calculate the score of the winner from 1 to the max_goals 
-    # and the score of the looser from 0 to the score of the winner
+    # Se il risultato non è un pareggio calcolo il numero goals da 1 a max_goals e 
+    # e i goals del perdente da 0 ai goal del vincitore TODO puoi personalizzare
     if (result != 'draw'): 
         i_win, i_loose = (0,1) if result == team1 else (1,0)
         score_proba[i_win] = score_proba[i_win][1:]/score_proba[i_win][1:].sum(axis=0,keepdims=1)
@@ -497,7 +489,8 @@ def get_match_result(foot_model, team1, team2, elimination=False, max_draw=50, m
         score_proba[i_loose] = score_proba[i_loose][:winner_score]/score_proba[i_loose][:winner_score].sum(axis=0,keepdims=1)
         looser_score = pd.Series([np.random.choice(range(0, winner_score), p=score_proba[i_loose]) for i in range(0,max_draw)]).value_counts().index[0]
         score = [winner_score, looser_score]
-    # If it's a draw then we calculate a score and repeat it twice
+
+    # Se è un pareggio calcolo i goals e lo ripeto
     else:
         score = np.repeat(pd.Series([np.random.choice(range(0, max_goals+1), p=score_proba[0]) for i in range(0,max_draw)]).value_counts().index[0],2)
     looser = team2 if result == team1 else team1 if result != 'draw' else 'draw'
