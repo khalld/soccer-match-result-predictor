@@ -1,28 +1,13 @@
 import pandas as pd
 import numpy as np
-from libs.utils import fix_continent_matches, cumsum_graph, format_dataframe, get_continent_from_fifa, check_records_validity, convert_onehot, convert_onehot_simplified, add_weight, label_encoding
 from matplotlib import pyplot as plt
-from matplotlib.collections import LineCollection
-import matplotlib.colors as mcolors
-from os import path
-from scipy.stats import spearmanr, pearsonr, kendalltau
-import seaborn as sns
 from statsmodels.formula.api import ols
-from sklearn import preprocessing, linear_model
-from scipy.stats import zscore
 from scipy.stats import poisson
 from statsmodels.formula.api import logit
-from sklearn.tree import DecisionTreeClassifier 
-
-from sklearn import tree
-from sklearn.tree import export_graphviz
-from six import StringIO
-from IPython.display import Image  
-
 import statsmodels.formula.api as smf
 import statsmodels.api as sm
-
-from sklearn.model_selection import train_test_split
+from os import path
+from libs.utils import format_columns, get_match_result
 
 plt.style.use('ggplot')
 plt.rcParams.update({'figure.figsize':(10,10), 'figure.dpi':100})
@@ -107,49 +92,25 @@ if __name__ == "__main__":
 
     print("________ PARTE 1 ________")
     # ------ PARTO DA QUESTA VERSIONE DEL DATASET DAL NOTEBOOK -------
-    # df = pd.read_csv(path.join(PATH_DST, 'dataset_v4.csv')).drop(columns=['Unnamed: 0'])
+    # df = pd.read_csv(path.join(PATH_DST, 'dataset_v3.csv')).drop(columns=['Unnamed: 0'])
+    # df = format_columns(df)
     # print("***"*5 + "STARTING LABEL ENCODING PROCESS" + "***"*5)
     # df = label_encoding(df)
-    # df.to_csv(path.join(PATH_DST, 'dataset_v4_ENCODED.csv'))
+    # df.to_csv(path.join(PATH_DST, 'dataset_v3_ENCODED.csv'))
     # print("***"*5 + "ENDED LABEL ENCODING PROCESS" + "***"*5)
 
-    print("________ PARTE 2 ________")
-    # ------ DATASET CON LABEL ENCODING ----------
-    df = pd.read_csv(path.join(PATH_DST, 'dataset_v4_ENCODED.csv')).drop(columns=['Unnamed: 0'])
-    print(df.info())
-    print(df.corr())
-    print(df.columns)
+    df = pd.read_csv(path.join(PATH_DST, 'dataset_v3_FORMATTED.csv')).drop(columns=['Unnamed: 0'])
+
+    print("***"*5 + "STARTING MODEL" + "***"*5)
+    matches_model_data = pd.concat([df[['home_team','away_team','home_score']].rename(columns={'home_team':'team', 'away_team':'opponent','home_score':'goals'}),
+                df[['away_team','home_team','away_score']].rename(columns={'away_team':'team', 'home_team':'opponent','away_score':'goals'})])
     
-    model = test_Linear_regr(df)
-    # test_Poisson(df)
+    poisson_model = smf.glm(formula="goals ~ team + opponent", data=matches_model_data, family=sm.families.Poisson()).fit()
+    print(poisson_model.summary())
 
+    print("***"*5 + "PREDICTIONS:" + "***"*5)
+    print(get_match_result(poisson_model, 'Germany', 'Spain'))
+    print(get_match_result(poisson_model, 'Argentina', 'Germany'))
+    print(get_match_result(poisson_model, 'England', 'Morocco'))
+    print(get_match_result(poisson_model, 'Italy', 'Brazil'))
 
-    # ------ TESTS -------
-
-    df_train, df_test = train_test_split(df, test_size=0.25)
-
-
-    # print(len(df_train))
-    # print(len(df_test))
-    
-    # df_train, df_test = train_test_split(df, test_size=0.25)
-
-    # print("***"*5 + " POISSON " + "***"*5)
-    # formula1 = "outcome ~ home_team + away_team + home_score + away_score + tournament + city + country + continent + neutral"
-    # formula2 = "outcome ~ home_team + away_team + home_score + away_score + continent + neutral"
-    # formula3 = "outcome ~ home_team + away_team + home_score + away_score + neutral"
-
-    # model = smf.glm(formula=formula1, data=df_train, family=sm.families.Poisson()).fit()
-    # print(model.summary())
-    # model = smf.glm(formula=formula2, data=df_train, family=sm.families.Poisson()).fit()
-    # print(model.summary())
-    # # model = smf.glm(formula=formula3, data=df_test, family=sm.families.Poisson()).fit()
-    # # print(model.summary())
-    poisson_predictions = model.get_prediction(df_test)
-    print("PREDICTION")
-
-    predicted_counts = poisson_predictions.summary_frame()
-
-    # df.loc[df.Weight == "155", "Name"] = "John"
-
-    print(predicted_counts)

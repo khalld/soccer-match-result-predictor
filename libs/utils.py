@@ -277,9 +277,9 @@ def show_cdf(df: pd.DataFrame, team_name: str) -> None:
     defeats = df.query(
         "home_team == @team_name and outcome == 'Away' or away_team == @team_name and outcome == 'Home' ").value_counts(
         "year").sort_index(ascending=True).cumsum()
-    print("%d wins" % wins)
-    print("%d draws" % draws)
-    print("%d defeats" % defeats)
+    print("%d wins" % len(wins))
+    print("%d draws" % len(draws))
+    print("%d defeats" % len(defeats))
     
     plt.figure()
     plt.plot(wins)
@@ -381,18 +381,20 @@ def do_label_encoding(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-def label_encoding(df: pd.DataFrame) -> pd.DataFrame:
-    print("***"*5 + "DATAFRAME LOADED" +  "***"*5)
-
+def format_columns(df: pd.DataFrame) -> pd.DataFrame:
     df['neutral'] = df['neutral'].astype(float)
     df['outcome'] = df['outcome'].replace({"Home": 1.0, "Draw": 0, "Away": 2})
-
     # elimino gli eventuali spazi vuoti dai nomi
     df['home_team'] = df['home_team'].str.replace(" ", "_")
     df['away_team'] = df['away_team'].str.replace(" ", "_")
     df['tournament'] = df['tournament'].str.replace(" ", "_")
     df['country'] = df['country'].str.replace(" ", "_")
     df['city'] = df['city'].str.replace(" ", "_")
+
+    return df
+
+def label_encoding(df: pd.DataFrame) -> pd.DataFrame:
+    print("***"*5 + "DATAFRAME LOADED" +  "***"*5)
 
     print("Extracting label from categorical data..")
     df_encoded = do_label_encoding(df)
@@ -478,7 +480,7 @@ def get_match_result(model, team1: str, team2: str, max_draw=50, max_goals=10):
     proba, score_proba = get_proba_match(model, team1, team2, max_goals)
     
     results = pd.Series([np.random.choice([team1, 'draw', team2], p=proba) for i in range(0,max_draw)]).value_counts()
-    result = results.index[0]
+    result = results.index[0] # if not elimination or (elimination and results.index[0] != 'draw') else results.index[1]
     
     # Se il risultato non è un pareggio calcolo il numero goals da 1 a max_goals e 
     # e i goals del perdente da 0 ai goal del vincitore TODO puoi personalizzare
