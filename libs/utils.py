@@ -268,6 +268,105 @@ def fix_continent_matches(all_years, df):
 
     return df
 
+def make_team_statistics(df: pd.DataFrame, teams: pd.DataFrame) -> pd.DataFrame:
+    teams['games'] = 0
+    teams['home_games'] = 0
+    teams['away_games'] = 0
+    teams['neutral_games'] = 0
+
+    teams['wins'] = 0
+    teams['home_wins'] = 0
+    teams['away_wins'] = 0
+    teams['neutral_wins'] = 0
+
+    teams['defeats'] = 0
+    teams['home_defeats'] = 0
+    teams['away_defeats'] = 0
+    teams['neutral_defeats'] = 0
+
+    teams['draws'] = 0
+    teams['home_draws'] = 0
+    teams['away_draws'] = 0
+    teams['neutral_draws'] = 0
+
+    teams['goals_scored'] = 0
+    teams['home_goals_scored'] = 0
+    teams['away_goals_scored'] = 0
+    teams['neutral_goals_scored'] = 0
+
+    teams['goals_conceded'] = 0
+    teams['home_goals_conceded'] = 0
+    teams['away_goals_conceded'] = 0
+    teams['neutral_goals_conceded'] = 0
+
+    counter = 0
+    for team in teams.team.values:
+        print('*** Processing %d/%d ***' % (counter, len(teams.team.values)), end='\r')
+
+        team_df = df.query("home_team == @team or away_team == @team")
+
+        home_games_df = team_df.query("neutral == False and country == @team ")
+        away_games_df = team_df.query("neutral == False and country != @team ")
+        neutral_games_df = team_df.query("neutral == True ")
+
+        teams.at[teams.team == team, 'games'] = len(team_df)
+        teams.at[teams.team == team, 'home_games'] = len(home_games_df)
+        teams.at[teams.team == team, 'away_games'] = len(away_games_df)
+        teams.at[teams.team == team, 'neutral_games'] = len(neutral_games_df)
+
+        query1 = "home_team == @team and outcome == 'Home' or away_team == @team and outcome == 'Away' "
+        teams.at[teams.team == team, 'wins'] = len(team_df.query(query1))
+        teams.at[teams.team == team, 'home_wins'] = len(home_games_df.query(query1))
+        teams.at[teams.team == team, 'away_wins'] = len(away_games_df.query(query1))
+        teams.at[teams.team == team, 'neutral_wins'] = len(neutral_games_df.query(query1))
+
+        query2 = "home_team == @team and outcome == 'Away' or away_team == @team and outcome == 'Home' "
+        teams.at[teams.team == team, 'defeats'] = len(team_df.query(query2))
+        teams.at[teams.team == team, 'home_defeats'] = len(home_games_df.query(query2))
+        teams.at[teams.team == team, 'away_defeats'] = len(away_games_df.query(query2))
+        teams.at[teams.team == team, 'neutral_defeats'] = len(neutral_games_df.query(query2))
+
+        query3 = "outcome == 'Draw' "
+        teams.at[teams.team == team, 'draws'] = len(team_df.query(query3))
+        teams.at[teams.team == team, 'home_draws'] = len(home_games_df.query(query3))
+        teams.at[teams.team == team, 'away_draws'] = len(away_games_df.query(query3))
+        teams.at[teams.team == team, 'neutral_draws'] = len(neutral_games_df.query(query3))
+
+        teams.at[teams.team == team, 'goals_scored'] = team_df.query("home_team == @team")['home_score'].sum() + \
+                                                       team_df.query("away_team == @team")['away_score'].sum()
+        teams.at[teams.team == team, 'home_goals_scored'] = home_games_df.query("home_team == @team")[
+                                                                'home_score'].sum() + \
+                                                            home_games_df.query("away_team == @team")[
+                                                                'away_score'].sum()
+        teams.at[teams.team == team, 'away_goals_scored'] = away_games_df.query("home_team == @team")[
+                                                                'home_score'].sum() + \
+                                                            away_games_df.query("away_team == @team")[
+                                                                'away_score'].sum()
+        teams.at[teams.team == team, 'neutral_goals_scored'] = neutral_games_df.query("home_team == @team")[
+                                                                   'home_score'].sum() + \
+                                                               neutral_games_df.query("away_team == @team")[
+                                                                   'away_score'].sum()
+
+        teams.at[teams.team == team, 'goals_conceded'] = team_df.query("home_team == @team")['away_score'].sum() + \
+                                                         team_df.query("away_team == @team")['home_score'].sum()
+        teams.at[teams.team == team, 'home_goals_conceded'] = home_games_df.query("home_team == @team")[
+                                                                  'away_score'].sum() + \
+                                                              home_games_df.query("away_team == @team")[
+                                                                  'home_score'].sum()
+        teams.at[teams.team == team, 'away_goals_conceded'] = away_games_df.query("home_team == @team")[
+                                                                  'away_score'].sum() + \
+                                                              away_games_df.query("away_team == @team")[
+                                                                  'home_score'].sum()
+        teams.at[teams.team == team, 'neutral_goals_conceded'] = neutral_games_df.query("home_team == @team")[
+                                                                     'away_score'].sum() + \
+                                                                 neutral_games_df.query("away_team == @team")[
+                                                                     'home_score'].sum()
+
+        counter = counter + 1
+
+    return teams
+
+
 def show_cdf(df: pd.DataFrame, team_name: str) -> None:
     df = df.query("away_team == @team_name or home_team == @team_name")
 
@@ -449,6 +548,7 @@ def convert_onehot_simplified(home_team, away_team, neutral=True):
         predicted_neutral = 0
 
     return [[predicted_home_team, predicted_away_team, predicted_neutral]]
+
 
 def get_proba_match(model, team1: str, team2: str, max_goals=10):
     # Media dei goal per ogni squadra
