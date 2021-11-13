@@ -241,7 +241,7 @@ def extract_continent_from_FIFA(df: pd.DataFrame, df_fifa: pd.DataFrame) -> pd.D
     return df
 
 def check_records_validity(df: pd.DataFrame, df_fifa: pd.DataFrame) -> pd.DataFrame:
-
+    """ Aggiunge al dataframe la colonna is_valid che controlla la validità del match secondo le squadre """
     df_valid = df.copy()
     valid_country = df_fifa.country_full.drop_duplicates().sort_values().reset_index(drop=True)
     valid_country = valid_country.values
