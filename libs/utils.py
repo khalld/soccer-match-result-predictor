@@ -451,8 +451,8 @@ def convert_onehot_simplified(home_team, away_team, neutral=True):
 
 def get_proba_match(model, team1: str, team2: str, max_goals=10):
     # Media dei goal per ogni squadra
-    t1_goals_avg = model.predict(pd.DataFrame(data={'team': team1, 'opponent': team2}, index=[1])).values[0]
-    t2_goals_avg = model.predict(pd.DataFrame(data={'team': team2, 'opponent': team1}, index=[1])).values[0]
+    t1_goals_avg = model.predict(pd.DataFrame(data={'team1': team1, 'team2': team2}, index=[1])).values[0]
+    t2_goals_avg = model.predict(pd.DataFrame(data={'team1': team2, 'team2': team1}, index=[1])).values[0]
     
     # Probabilità di fare dei goal per ogni team
     team_pred = [[poisson.pmf(i, team_avg) for i in range(0, max_goals+1)] for team_avg in [t1_goals_avg, t2_goals_avg]]
@@ -467,7 +467,6 @@ def get_proba_match(model, team1: str, team2: str, max_goals=10):
     result_proba = [t1_wins, draw, t2_wins]
     
     # Adjust the proba to sum to one
-    # Italiano? TODO
     result_proba =  np.array(result_proba)/ np.array(result_proba).sum(axis=0,keepdims=1)
     team_pred[0] = np.array(team_pred[0])/np.array(team_pred[0]).sum(axis=0,keepdims=1)
     team_pred[1] = np.array(team_pred[1])/np.array(team_pred[1]).sum(axis=0,keepdims=1)
@@ -480,7 +479,7 @@ def get_match_result(model, team1: str, team2: str, max_draw=50, max_goals=10):
     proba, score_proba = get_proba_match(model, team1, team2, max_goals)
     
     results = pd.Series([np.random.choice([team1, 'draw', team2], p=proba) for i in range(0,max_draw)]).value_counts()
-    result = results.index[0] # if not elimination or (elimination and results.index[0] != 'draw') else results.index[1]
+    result = results.index[0]
     
     # Se il risultato non è un pareggio calcolo il numero goals da 1 a max_goals e 
     # e i goals del perdente da 0 ai goal del vincitore TODO puoi personalizzare
@@ -496,4 +495,5 @@ def get_match_result(model, team1: str, team2: str, max_draw=50, max_goals=10):
     else:
         score = np.repeat(pd.Series([np.random.choice(range(0, max_goals+1), p=score_proba[0]) for i in range(0,max_draw)]).value_counts().index[0],2)
     looser = team2 if result == team1 else team1 if result != 'draw' else 'draw'
+
     return result, looser, score
