@@ -124,6 +124,7 @@ def format_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def extract_continent_from_FIFA(df: pd.DataFrame, df_fifa: pd.DataFrame) -> pd.DataFrame:
+    """ Ritorna un DataFrame con una colonna che indica il continente in cui è stato disputato il match """
     df['continent'] = ''
 
     # mi ricavo le confederazioni delle nazionali dal dataset FIFA
@@ -257,7 +258,7 @@ def check_records_validity(df: pd.DataFrame, df_fifa: pd.DataFrame) -> pd.DataFr
     return df_valid
 
 def fix_continent_matches(all_years, df):
-    # setto a 0 gli anni in cui il continente non ha ospitato neanche una partita
+    """ Setto 0 gli anni in cui il continente non ha ospitato neanche una partita """
     not_played_years = set(all_years) - (set(all_years).intersection(df.year.values))
 
     for i in not_played_years:
