@@ -10,7 +10,7 @@ from os import path
 from libs.utils import format_columns, get_match_result
 
 plt.style.use('ggplot')
-plt.rcParams.update({'figure.figsize':(10,10), 'figure.dpi':100})
+# plt.rcParams.update({'figure.figsize':(10,10), 'figure.dpi':100})
 
 PATH_ORIGINAL_DST = 'dataset/original'
 PATH_DST = 'dataset'
