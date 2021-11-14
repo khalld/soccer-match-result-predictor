@@ -5,6 +5,9 @@ import datetime
 from os import path
 from sklearn import preprocessing
 from scipy.stats import poisson
+import random
+
+PATH_DST = 'dataset'
 
 def get_outcome(home_score, away_score) -> str:
     if home_score > away_score:
@@ -598,3 +601,53 @@ def get_match_result(model, team1: str, team2: str, max_draw=50, max_goals=10):
     looser = team2 if result == team1 else team1 if result != 'draw' else 'draw'
 
     return result, looser, score
+
+
+
+
+
+def get_random_teams() -> str:
+    country = pd.read_csv(path.join(PATH_DST, 'valid_country.csv')).drop(columns=['Unnamed: 0', 'confederation']).team.values
+    team1 = random.choice(country)
+    team2 = random.choice(country)
+    if team1 == team2:
+        team2 = random.choice(country)
+
+    team1 = team1.replace(" ", "_")
+    team2 = team2.replace(" ", "_")
+
+    return team1, team2
+
+def get_existent_matches(team1: str, team2:str)-> None:
+    # dataframe di riferimento cablato
+    df = pd.read_csv(path.join(PATH_DST, 'v3/dataset.csv')).drop(columns=['Unnamed: 0'])
+    df = df.query("home_team == @team1 and away_team == @team2 or home_team == @team2 and away_team == @team1").drop(columns=['tournament','city','country','neutral','year','continent'])
+    print(len(df))
+    if len(df) == 0:
+        print("Nessun precedente trovato")
+    else:
+        print("Trovati %d precedenti:" % len(df))
+        draws = len(df.query("outcome == 'Draw'"))
+        team1_wins = len(df.query("home_team == @team1 and outcome == 'Home' or away_team == @team1 and outcome == 'Away' "))
+        team2_wins = len(df.query("home_team == @team2 and outcome == 'Home' or away_team == @team2 and outcome == 'Away' "))
+        team1_defeats = len(df.query("home_team == @team1 and outcome == 'Away' or away_team == @team1 and outcome == 'Home' "))
+        team2_defeats = len(df.query("home_team == @team2 and outcome == 'Away' or away_team == @team2 and outcome == 'Home' "))
+        print("Vittorie di %s : %d" % (team1, team1_wins))
+        print("Vittorie di %s : %d" % (team2, team2_wins))
+        print("Pareggi: %d" % draws)
+        print("Sconfitte di %s : %d" % (team1, team1_defeats))
+        print("Sconfitte di %s : %d" % (team2, team2_defeats))
+
+        team1_goals = pd.concat([df.query("home_team == @team1").home_score, df.query("away_team == @team1").away_score])
+        team2_goals = pd.concat([df.query("home_team == @team2").home_score, df.query("away_team == @team2").away_score])
+
+        print("Goal totali di %s: %d" % (team1, team1_goals.sum()))
+        print("Goal totali di %s: %d" % (team2, team2_goals.sum()))
+
+        #TODO
+        # goal di team_2
+
+        # valore medio
+        # valore mediano
+
+
