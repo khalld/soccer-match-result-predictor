@@ -602,10 +602,6 @@ def get_match_result(model, team1: str, team2: str, max_draw=50, max_goals=10):
 
     return result, looser, score
 
-
-
-
-
 def get_random_teams() -> str:
     country = pd.read_csv(path.join(PATH_DST, 'valid_country.csv')).drop(columns=['Unnamed: 0', 'confederation']).team.values
     team1 = random.choice(country)
@@ -622,7 +618,6 @@ def get_existent_matches(team1: str, team2:str)-> None:
     # dataframe di riferimento cablato
     df = pd.read_csv(path.join(PATH_DST, 'v3/dataset.csv')).drop(columns=['Unnamed: 0'])
     df = df.query("home_team == @team1 and away_team == @team2 or home_team == @team2 and away_team == @team1").drop(columns=['tournament','city','country','neutral','year','continent'])
-    print(len(df))
     if len(df) == 0:
         print("Nessun precedente trovato")
     else:
@@ -644,10 +639,24 @@ def get_existent_matches(team1: str, team2:str)-> None:
         print("Goal totali di %s: %d" % (team1, team1_goals.sum()))
         print("Goal totali di %s: %d" % (team2, team2_goals.sum()))
 
-        #TODO
-        # goal di team_2
-
         # valore medio
-        # valore mediano
+        print("Mediano goal totali di %s: %d" % (team1, team1_goals.median()))
+        print("Mediano goal totali di %s: %d" % (team2, team2_goals.median()))
 
+        # valore mediano
+        print("Media goal totali di %s: %d" % (team1, team1_goals.mean()))
+        print("Media goal totali di %s: %d" % (team2, team2_goals.mean()))
+
+def make_test(model, team_1_test: str = "", team_2_test: str = ""):
+    proceed = False
+    if(team_1_test == "" or team_2_test == ""):
+        team_1_test, team_2_test = get_random_teams()
+        proceed = True
+    elif team_1_test == team_2_test:
+        print("Parametri in input errati! Exit...")        
+    
+    print("Simulazione di %s vs %s" % (team_1_test, team_2_test))
+    get_existent_matches(team_1_test, team_2_test)
+    print("*"*5 + " Risultato simulazione " + "*"*5)
+    print(get_match_result(model, team_1_test, team_2_test))
 
