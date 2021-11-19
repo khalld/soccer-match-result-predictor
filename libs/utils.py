@@ -6,8 +6,20 @@ from os import path
 from sklearn import preprocessing
 from scipy.stats import poisson
 import random
+import warnings
 
 PATH_DST = 'dataset'
+
+def deprecated(message):
+  def deprecated_decorator(func):
+      def deprecated_func(*args, **kwargs):
+          warnings.warn("{} is a deprecated function. {}".format(func.__name__, message),
+                        category=DeprecationWarning,
+                        stacklevel=2)
+          warnings.simplefilter('default', DeprecationWarning)
+          return func(*args, **kwargs)
+      return deprecated_func
+  return deprecated_decorator
 
 def get_outcome(home_score, away_score) -> str:
     if home_score > away_score:
@@ -514,6 +526,7 @@ def get_describe_values(df_input: pd.DataFrame, col_name: str):
     maximum = q3+1.5*iqr # Valore massimo o -| marker nel box plot
     return median, q1, q3, iqr, minimum, maximum
 
+@deprecated("non più necessario")
 def remove_outliers(df_input: pd.DataFrame, col_name: str):
     # median, q1, q3, iqr, minimum, maximum = get_describe_values(df_input, col_name)
     # convenzione
@@ -521,7 +534,7 @@ def remove_outliers(df_input: pd.DataFrame, col_name: str):
     df_output = df_input.loc[(df_input[col_name] > minimum) & (df_input[col_name] < maximum)]
     return df_output
 
-# __DEPRECATO__?
+@deprecated("non più necessario")
 def convert_onehot(home_team, away_team, tournament='Friendly', city='Rome', country='Italy', continent='Europe', neutral=0): # = 1 True = 0 False    
     df_teams = pd.read_csv(path.join("libs/csv" ,"coded_teams.csv"))
     df_tournament = pd.read_csv(path.join("libs/csv" ,"coded_tournament.csv"))
@@ -539,7 +552,7 @@ def convert_onehot(home_team, away_team, tournament='Friendly', city='Rome', cou
 
     return [[predicted_home_team, predicted_away_team, predicted_tournament, predicted_city, predicted_country, predicted_neutral, predicted_continent]]
 
-# __DEPRECATO__?
+@deprecated("non più necessario")
 def convert_onehot_simplified(home_team, away_team, neutral=True):
     df_teams = pd.read_csv(path.join("libs/csv" ,"coded_teams.csv"))
 
