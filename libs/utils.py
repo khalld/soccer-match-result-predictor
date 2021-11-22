@@ -627,6 +627,11 @@ def get_random_teams() -> str:
 
     return team1, team2
 
+def get_random_team() -> str:
+    country = pd.read_csv(path.join(PATH_DST, 'valid_country.csv')).drop(columns=['Unnamed: 0', 'confederation']).team.values
+
+    return random.choice(country)
+
 def get_existent_matches(team1: str, team2:str)-> None:
     # dataframe di riferimento cablato
     df = pd.read_csv(path.join(PATH_DST, 'v3/dataset.csv')).drop(columns=['Unnamed: 0'])
