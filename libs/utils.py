@@ -635,7 +635,7 @@ def get_existent_matches(team1: str, team2:str)-> None:
     if len(df) == 0:
         print("Nessun precedente trovato")
     else:
-        print("**"*5 + "Trovati " +len(df) + " precedenti" + "**"*5)
+        print("**"*5 + "Trovati precedenti" + "**"*5)
         draws = len(df.query("outcome == 'Draw'"))
         team1_wins = len(df.query("home_team == @team1 and outcome == 'Home' or away_team == @team1 and outcome == 'Away' "))
         team2_wins = len(df.query("home_team == @team2 and outcome == 'Home' or away_team == @team2 and outcome == 'Away' "))
