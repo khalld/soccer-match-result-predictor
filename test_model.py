@@ -39,17 +39,13 @@ def test_Linear_regr(df):
     model = ols(formula=formula, data=df).fit()
     print(model.summary())
 
-    # idem di sopra continuo eliminando city
-    # -------- modello migliore con regressione lineare
+    # idem di sopra continuo eliminando city, modello migliore con regressione lineare è il seguente
     print("***"*5 + " FOURTH ITERATION " + "***"*5)
     formula = "home_score ~ home_team + away_team + continent + neutral"
     model = ols(formula=formula, data=df, ).fit()
     print(model.summary())
 
     return model
-
-    # aggiungere un peso ad ogni riga del dal dataset non ha fatto migliorare per nulla l'algoritmo
-    # neanche applicare lo z-score ai goals
 
 def test_Poisson(df):
     print("===="*5 + " POISSON " + "===="*5 )
@@ -77,6 +73,8 @@ def test_Poisson(df):
     formula = "outcome ~ home_team + away_team + continent + neutral"
     model = smf.glm(formula=formula, data=df, family=sm.families.Poisson()).fit() # freq_weights, ricorda eventualmente di considerare..
     print(model.summary())
+
+    # è il modello migliore
 
 def test_Logit(df):
     print("***"*5 + " LOGIT FIRST ITERATION " + "***"*5)

@@ -381,7 +381,6 @@ def make_team_statistics(df: pd.DataFrame, teams: pd.DataFrame) -> pd.DataFrame:
 
     return teams
 
-
 def show_cdf(df: pd.DataFrame, team_name: str) -> None:
     df = df.query("away_team == @team_name or home_team == @team_name")
 
