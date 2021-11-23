@@ -589,16 +589,13 @@ def get_proba_match(model, team1: str, team2: str, max_goals=10):
     
     return result_proba, [np.array(team_pred[0]), np.array(team_pred[1])]
 
-# Sostituisci max_goals con gli outliers TODO
 def get_match_result(model, team1: str, team2: str, max_draw=50, max_goals=10):
-    # Get probabilità
     proba, score_proba = get_proba_match(model, team1, team2, max_goals)
     
     results = pd.Series([np.random.choice([team1, 'draw', team2], p=proba) for i in range(0,max_draw)]).value_counts()
     result = results.index[0]
     
-    # Se il risultato non è un pareggio calcolo il numero goals da 1 a max_goals e 
-    # e i goals del perdente da 0 ai goal del vincitore TODO puoi personalizzare
+    # Se il risultato non è un pareggio calcolo il numero goals da 1 a max_goals e i goals del perdente da 0 ai goal del vincitore
     if (result != 'draw'): 
         i_win, i_loose = (0,1) if result == team1 else (1,0)
         score_proba[i_win] = score_proba[i_win][1:]/score_proba[i_win][1:].sum(axis=0,keepdims=1)
@@ -638,17 +635,15 @@ def get_existent_matches(team1: str, team2:str)-> None:
     if len(df) == 0:
         print("Nessun precedente trovato")
     else:
-        print("Trovati %d precedenti:" % len(df))
+        print("**"*5 + "Trovati " +len(df) + " precedenti" + "**"*5)
         draws = len(df.query("outcome == 'Draw'"))
         team1_wins = len(df.query("home_team == @team1 and outcome == 'Home' or away_team == @team1 and outcome == 'Away' "))
         team2_wins = len(df.query("home_team == @team2 and outcome == 'Home' or away_team == @team2 and outcome == 'Away' "))
         team1_defeats = len(df.query("home_team == @team1 and outcome == 'Away' or away_team == @team1 and outcome == 'Home' "))
         team2_defeats = len(df.query("home_team == @team2 and outcome == 'Away' or away_team == @team2 and outcome == 'Home' "))
-        print("Vittorie di %s : %d" % (team1, team1_wins))
-        print("Vittorie di %s : %d" % (team2, team2_wins))
+        print("%s : Vittorie %d || Sconfitte %d" % (team1, team1_wins, team1_defeats))
         print("Pareggi: %d" % draws)
-        print("Sconfitte di %s : %d" % (team1, team1_defeats))
-        print("Sconfitte di %s : %d" % (team2, team2_defeats))
+        print("%s : Vittorie %d || Sconfitte %d" % (team2, team2_wins, team2_defeats))
 
         team1_goals = pd.concat([df.query("home_team == @team1").home_score, df.query("away_team == @team1").away_score])
         team2_goals = pd.concat([df.query("home_team == @team2").home_score, df.query("away_team == @team2").away_score])
@@ -665,15 +660,13 @@ def get_existent_matches(team1: str, team2:str)-> None:
         print("Media goal totali di %s: %d" % (team2, team2_goals.mean()))
 
 def make_test(model, team_1_test: str = "", team_2_test: str = ""):
-    proceed = False
     if(team_1_test == "" or team_2_test == ""):
         team_1_test, team_2_test = get_random_teams()
-        proceed = True
-    elif team_1_test == team_2_test:
-        print("Parametri in input errati! Exit...")        
-    
-    print("Simulazione di %s vs %s" % (team_1_test, team_2_test))
-    get_existent_matches(team_1_test, team_2_test)
-    print("*"*5 + " Risultato simulazione " + "*"*5)
-    print(get_match_result(model, team_1_test, team_2_test))
+        print("Simulazione di %s vs %s" % (team_1_test, team_2_test))
+        get_existent_matches(team_1_test, team_2_test)
+        print("*"*5 + " Risultato simulazione " + "*"*5)
+        
+        print(get_match_result(model, team_1_test, team_2_test))
 
+    elif team_1_test == team_2_test:
+        print("Impossibile calcolare il risultato tra due team uguali! Simulazione annullata ...")

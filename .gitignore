@@ -2,6 +2,7 @@
 
 lab/**/**.csv
 
+*.sav
 *.idea
 # *.csv
 *.png
